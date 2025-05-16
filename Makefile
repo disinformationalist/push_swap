@@ -14,9 +14,24 @@ NAME := push_swap
 
 ARCHIVE := push_swap.a
 
-SRCS := free.c harmony_sort.c main.c num_utils.c push_swap.c push.c quicksort.c \
- return_utils.c reverse_rotate.c rotate.c route_6_and_targets.c routes.c \
- sort_utils.c sort.c swap.c take_shortest.c utils_2.c utils.c  
+SRCS := ./src/free.c \
+./src/harmony_sort.c \
+./src/main.c \
+./src/num_utils.c \
+./src/push_swap.c \
+./src/push.c \
+./src/quicksort.c \
+./src/return_utils.c \
+./src/reverse_rotate.c \
+./src/rotate.c \
+./src/route_6_and_targets.c \
+./src/routes.c \
+./src/sort_utils.c \
+./src/sort.c \
+./src/swap.c \
+./src/take_shortest.c \
+./src/utils_2.c \
+./src/utils.c \  
   
 CFLAGS := -Wall -Wextra -Werror
 
