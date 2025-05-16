@@ -12,6 +12,12 @@
 
 NAME := push_swap
 
+SRC_DIR = ./src
+
+OBJ_DIR = ./obj
+
+INC_DIR = ./inc
+
 ARCHIVE := push_swap.a
 
 SRCS := ./src/free.c \
@@ -31,19 +37,25 @@ SRCS := ./src/free.c \
 ./src/swap.c \
 ./src/take_shortest.c \
 ./src/utils_2.c \
-./src/utils.c \  
+./src/utils.c 
   
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -I$(INC_DIR)
 
 CC := cc
 
-OBS := $(SRCS:.c=.o)
+OBS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+#OBS := $(SRCS:.c=.o)
 
 all: libmake $(NAME)
 
 
 $(NAME): $(ARCHIVE)
 	$(CC) $< -L./libft -lft -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 	
 $(ARCHIVE): $(OBS)
 	ar rcs $(ARCHIVE) $(OBS)

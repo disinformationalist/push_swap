@@ -12,6 +12,8 @@
 
 #include "push_swap.h"
 
+int moves = 0;
+
 int	main(int ac, char **argv)
 {
 	t_stack		*a;
@@ -37,5 +39,6 @@ int	main(int ac, char **argv)
 			push_swap(&a, &b, len);
 	}
 	free_stack(&a);
+	printf("\nMoves: %d\n", moves);
 	return (0);
 }

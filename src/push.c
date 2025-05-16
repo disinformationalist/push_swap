@@ -40,6 +40,7 @@ void	pa(t_stack **a, t_stack **b, int checker)
 	push(a, b);
 	if (!checker)
 		write(1, "pa\n", 3);
+	moves++;
 }
 
 void	pb(t_stack **b, t_stack **a, int checker)
@@ -47,4 +48,5 @@ void	pb(t_stack **b, t_stack **a, int checker)
 	push(b, a);
 	if (!checker)
 		write(1, "pb\n", 3);
+	moves++;
 }

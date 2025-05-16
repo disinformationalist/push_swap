@@ -35,6 +35,7 @@ void	sa(t_stack **a, int checker)
 	swap(a);
 	if (!checker)
 		write(1, "sa\n", 3);
+	moves++;
 }
 
 void	sb(t_stack **b, int checker)
@@ -42,6 +43,7 @@ void	sb(t_stack **b, int checker)
 	swap(b);
 	if (!checker)
 		write(1, "sb\n", 3);
+	moves++;
 }
 
 void	ss(t_stack **a, t_stack **b, int checker)
@@ -50,4 +52,5 @@ void	ss(t_stack **a, t_stack **b, int checker)
 	swap(b);
 	if (!checker)
 		write(1, "ss\n", 3);
+	moves++;
 }

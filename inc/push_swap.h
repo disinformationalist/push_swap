@@ -19,7 +19,11 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include "./libft/libft.h"
+# include "../libft/libft.h"
+
+//counter for total moves to sort
+
+extern int moves;
 
 typedef struct s_stack
 {
