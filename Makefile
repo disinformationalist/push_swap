@@ -45,7 +45,7 @@ CC := cc
 
 OBS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-#OBS := $(SRCS:.c=.o)
+.SILENT:
 
 all: libmake $(NAME)
 

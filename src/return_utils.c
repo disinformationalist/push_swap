@@ -35,7 +35,7 @@ void	cycle(t_stack **a)
 			rra(a, 0);
 }
 
-static void	reverse_loops(t_stack **a, t_stack **b, int start, int end)
+static void	reverse_loops(t_stack **a, t_stack **b, int end, int start)
 {
 	t_stack	*node_to_return;
 	t_stack	*target;
@@ -78,10 +78,10 @@ void	take_it_home_500(t_stack **a, t_stack **b)
 		target = closest_match_target(*a, node_to_return->final_pos);
 		take_route(a, b, target, node_to_return);
 	}
-	reverse_loops(a, b, 472, 485);
-	reverse_loops(a, b, 437, 457);
-	reverse_loops(a, b, 333, 415);
-	reverse_loops(a, b, 125, 249);
+	reverse_loops(a, b, 485, 472);
+	reverse_loops(a, b, 457, 437);
+	reverse_loops(a, b, 415, 333);
+	reverse_loops(a, b, 249, 125);
 	cycle(a);
 }
 
@@ -101,3 +101,109 @@ void	take_it_home(t_stack **a, t_stack **b)
 	}
 	cycle(a);
 }
+
+//below is a method of reversing the recursion for all
+//starting numbers not just 500
+//it seems to not give predictable improvement as with 500
+
+/* typedef struct s_rec
+{
+	int	num;
+	int	div;
+	int num_p;
+	int size;
+} t_rec;
+
+typedef struct s_args
+{
+	int	val1;
+	int	val2;
+} t_args;
+
+static t_rec	set_info(t_stack **a, t_stack **b)
+{
+	int		i;
+	int		num_blocks;
+	int		init_size;
+	int		size;
+	t_rec	info;
+
+	size = ft_size(*a) + ft_size(*b);
+	init_size = size;
+	info.size = size;
+	info.num_p = 0;
+	while (size >= 10 && init_size != 0)
+	{
+		num_blocks = 2;
+		while (num_blocks < 4 && size >= 10)
+		{
+			i = -1;
+			info.num = init_size / num_blocks;
+			while (++i < info.num && size >= 10)
+				size--;
+			num_blocks++;
+			info.num_p += info.num;
+		}
+		init_size = size;
+	}
+	info.div = num_blocks - 1;
+	//printf("num: %d num_p: %d div: %d\n", info.num, info.num_p, info.div);
+	return (info);
+}
+
+void	take_it_home_all(t_stack **a, t_stack **b)
+{
+	t_stack	*node_to_return;
+	t_stack	*target;
+	int		i;
+	int		last_interval;
+	t_rec	info;
+
+	info = set_info(a, b);
+	last_interval = info.size - (info.num_p - info.num);
+	i = -1;
+	//printf("loop: %d\n", last_interval - 9);
+	while (++i < last_interval - 9)
+	{
+		set_curr_pos_cost(*a);
+		set_curr_pos_cost(*b);
+		set_return_cost(*a, *b);
+		node_to_return = get_cheapest_return_interval(*b, info.size - last_interval, info.size - 1);
+		target = closest_match_target(*a, node_to_return->final_pos);
+		take_route(a, b, target, node_to_return);
+	}
+	int		size = info.size;
+	t_args	stored[100];
+	int		calls = 0;
+	int		val = -1;
+	int		flag = 0;
+	while (1)
+	{
+		i = 1;
+		int size_orig = size;
+		while (++i < 4)
+		{
+				val = val + size_orig / i;
+			int val2 = val - (size_orig / i) / 2 + 1;
+			stored[calls++] = (t_args){val, val2};
+			size -= size_orig / i;
+			if (size <= last_interval)
+			{
+				flag = 1;
+				break ;
+			}
+		}
+		if (flag)
+			break ;
+	}
+	i = calls;
+	//perform stored calls
+	while (--i >= 0)
+	{
+		//printf("val1: %d val2: %d\n", stored[i].val1, stored[i].val2);
+		reverse_loops(a, b, stored[i].val1, stored[i].val2);
+	}
+	take_it_home(a, b);
+	cycle(a);
+
+} */

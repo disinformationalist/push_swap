@@ -12,6 +12,8 @@
 
 #include "push_swap.h"
 
+//check if only rotation is needed to sort the current stack
+
 int	is_cyclic_sorted(t_stack *stack)
 {
 	t_stack	*rot_loc;
@@ -67,6 +69,8 @@ void	sort_3(t_stack **stack)
 		sa(stack, 0);
 }
 
+//sorts between and 9
+
 void	sort_5(t_stack **a, t_stack **b)
 {
 	if (ft_size(*a) == 5)
@@ -88,6 +92,9 @@ void	sort_5(t_stack **a, t_stack **b)
 		cycle(a);
 	}
 }
+
+//get lowest, move it to b, contiue until 3 left, sorts 3, moves all back to a 
+//good only for small stacks
 
 void	sort_now(t_stack **a, t_stack **b)
 {

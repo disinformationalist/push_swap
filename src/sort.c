@@ -64,6 +64,11 @@ static void	sort_500_ops(t_stack **a, t_stack **b, int num_prev, int num)
 		rb(b, 0);
 }
 
+// recursively send blocks of numbers to stack b while a is larger than 10
+// first does 1/2 of orig size, then 1/3 of orig size
+// then recurs with the new current size, 1/2, 1/3, ... until 9 remain
+// troubshoot: printf("----num_p: %d\n---num:  %d\n\n", num_prev, num);
+
 static void	sort_500(t_stack **a, t_stack **b, int num_prev, int len)
 {
 	int	i;
@@ -85,10 +90,12 @@ static void	sort_500(t_stack **a, t_stack **b, int num_prev, int len)
 		num_prev += num;
 	}
 	sort_500(a, b, num_prev, ft_size(*a));
+	return ;
 }
 
 void	push_swap(t_stack **a, t_stack **b, int len)
 {
+
 	if (is_cyclic_sorted(*a))
 	{
 		cycle(a);

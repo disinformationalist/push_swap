@@ -42,3 +42,4 @@ int	main(int ac, char **argv)
 	printf("\nMoves: %d\n", moves);
 	return (0);
 }
+//./test.pl <number in stack>  <number of test runs>
