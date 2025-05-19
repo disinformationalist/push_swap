@@ -86,6 +86,7 @@ void	add_node(t_stack **stack, char **av, int *tab, long n)
 		free_all(stack, av, tab);
 	new->next = NULL;
 	new->content = n;
+	new->target = NULL;
 	if (*stack == NULL)
 	{
 		*stack = new;

@@ -109,14 +109,13 @@ int	get_least_cost(t_stack *target, t_stack *node, t_stack *a, t_stack *b)
 
 void	set_return_cost(t_stack *a, t_stack *b)
 {
-	t_stack	*target;
 	t_stack	*curr_b;
-
+	
 	curr_b = b;
 	while (curr_b)
 	{
-		target = closest_match_target(a, curr_b->final_pos);
-		curr_b->return_cost = get_least_cost(target, curr_b, a, b);
+		curr_b->target = closest_match_target(a, curr_b->final_pos);
+		curr_b->return_cost = get_least_cost(curr_b->target, curr_b, a, b);
 		curr_b = curr_b->next;
 	}
 }

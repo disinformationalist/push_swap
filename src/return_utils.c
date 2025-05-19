@@ -38,7 +38,6 @@ void	cycle(t_stack **a)
 static void	reverse_loops(t_stack **a, t_stack **b, int end, int start)
 {
 	t_stack	*node_to_return;
-	t_stack	*target;
 	int		i;
 	int		j;
 	int		size;
@@ -54,8 +53,7 @@ static void	reverse_loops(t_stack **a, t_stack **b, int end, int start)
 			set_curr_pos_cost(*b);
 			set_return_cost(*a, *b);
 			node_to_return = get_cheapest_return_interval(*b, start, end);
-			target = closest_match_target(*a, node_to_return->final_pos);
-			take_route(a, b, target, node_to_return);
+			take_route(a, b, node_to_return->target, node_to_return);
 		}
 		start -= size;
 		end -= size;
@@ -65,7 +63,6 @@ static void	reverse_loops(t_stack **a, t_stack **b, int end, int start)
 void	take_it_home_500(t_stack **a, t_stack **b)
 {
 	t_stack	*node_to_return;
-	t_stack	*target;
 	int		i;
 
 	i = -1;
@@ -75,8 +72,7 @@ void	take_it_home_500(t_stack **a, t_stack **b)
 		set_curr_pos_cost(*b);
 		set_return_cost(*a, *b);
 		node_to_return = get_cheapest_return_interval(*b, 486, 499);
-		target = closest_match_target(*a, node_to_return->final_pos);
-		take_route(a, b, target, node_to_return);
+		take_route(a, b, node_to_return->target, node_to_return);
 	}
 	reverse_loops(a, b, 485, 472);
 	reverse_loops(a, b, 457, 437);
@@ -88,7 +84,6 @@ void	take_it_home_500(t_stack **a, t_stack **b)
 void	take_it_home(t_stack **a, t_stack **b)
 {
 	t_stack	*node_to_return;
-	t_stack	*target;
 
 	while (*b)
 	{
@@ -96,12 +91,13 @@ void	take_it_home(t_stack **a, t_stack **b)
 		set_curr_pos_cost(*b);
 		set_return_cost(*a, *b);
 		node_to_return = get_cheapest_return(*b);
-		target = closest_match_target(*a, node_to_return->final_pos);
-		take_route(a, b, target, node_to_return);
+		take_route(a, b, node_to_return->target, node_to_return);
 	}
 	cycle(a);
 }
 
+//NOTE: Instead create interval data struct with values saved to do this,
+// add pointer to all nodes, and just stick in any  
 //below is a method of reversing the recursion for all
 //starting numbers not just 500
 //it seems to not give predictable improvement as with 500

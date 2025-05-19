@@ -36,6 +36,7 @@ typedef struct s_stack
 	int				above_mid;
 	int				return_cost;
 	int				leave;
+	struct s_stack	*target;
 }	t_stack;
 
 typedef struct s_params

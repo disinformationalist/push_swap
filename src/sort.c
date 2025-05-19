@@ -26,6 +26,19 @@ static void	harmony_ops(t_stack **a, t_stack **b, int num, int j)
 		rb(b, 0);
 }
 
+t_stack	*get_node_at(t_stack *stack, int pos)
+{
+	if (stack == NULL)
+		return (NULL);
+	while (stack)
+	{
+		if (stack->final_pos == pos)
+			return (stack);
+		stack = stack->next;
+	}
+	return (NULL);
+}
+
 static void	harmony_sort(t_stack **a, t_stack **b, int num_blocks, int num)
 {
 	t_stack	*node;
@@ -88,6 +101,7 @@ static void	sort_500(t_stack **a, t_stack **b, int num_prev, int len)
 		}
 		num_blocks++;
 		num_prev += num;
+	
 	}
 	sort_500(a, b, num_prev, ft_size(*a));
 	return ;
