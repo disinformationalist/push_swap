@@ -12,16 +12,14 @@
 
 #include "push_swap.h"
 
-static void	harmony_ops(t_stack **a, t_stack **b, int num, int j)
+static void	harmony_ops(t_stack **a, t_stack **b, int set_mid, int top_lim)
 {
 	t_stack	*next_node;
 	t_stack *b_next;
-	int		set_mid;
 	int		topb_fp;
 	int		bnext_fp;
 
-	set_mid = num * (j - 1) + num / 2;
-	next_node = get_cheapest_2(*a, num * j);
+	next_node = get_cheapest_2(*a, top_lim);
 	b_next = (*b)->next;
 	topb_fp = (*b)->final_pos;
 	if (b_next)
@@ -60,7 +58,7 @@ static void	harmony_sort(t_stack **a, t_stack **b, int num_blocks, int num)
 				break ;
 			move_to_top_a(a, node);
 			pb(b, a, 0);
-			harmony_ops(a, b, num, j);
+			harmony_ops(a, b, num * (j - 1) + num / 2, num * j);
 		}
 	}
 }
