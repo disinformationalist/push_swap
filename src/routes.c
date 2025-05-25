@@ -29,7 +29,6 @@ void	route_1(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 		ra(a, 0);
 		a_rots--;
 	}
-	pa(a, b, 0);
 }
 
 void	route_2(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
@@ -49,7 +48,6 @@ void	route_2(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 		rb(b, 0);
 		b_rots--;
 	}
-	pa(a, b, 0);
 }
 
 void	route_3(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
@@ -58,7 +56,7 @@ void	route_3(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 	int	b_rots;
 
 	rrr_rots = ft_size(*a) - target->curr_pos;
-	b_rots = (ft_size(*b) - node->curr_pos) -(ft_size(*a) - target->curr_pos);
+	b_rots = (ft_size(*b) - node->curr_pos) - rrr_rots;
 	while (rrr_rots)
 	{
 		rrr(a, b, 0);
@@ -69,7 +67,6 @@ void	route_3(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 		rrb(b, 0);
 		b_rots--;
 	}
-	pa(a, b, 0);
 }
 
 void	route_4(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
@@ -78,7 +75,7 @@ void	route_4(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 	int	a_rots;
 
 	rrr_rots = ft_size(*b) - node->curr_pos;
-	a_rots = (ft_size(*a) - target->curr_pos) - (ft_size(*b) - node->curr_pos);
+	a_rots = (ft_size(*a) - target->curr_pos) - rrr_rots;
 	while (rrr_rots)
 	{
 		rrr(a, b, 0);
@@ -89,7 +86,6 @@ void	route_4(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 		rra(a, 0);
 		a_rots--;
 	}
-	pa(a, b, 0);
 }
 
 void	route_5(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
@@ -109,5 +105,4 @@ void	route_5(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 		rrb(b, 0);
 		b_rots--;
 	}
-	pa(a, b, 0);
 }

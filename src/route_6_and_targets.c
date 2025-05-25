@@ -29,7 +29,6 @@ void	route_6(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 		rb(b, 0);
 		b_rots--;
 	}
-	pa(a, b, 0);
 }
 
 t_stack	*closest_match_target(t_stack *a, int needed)
@@ -56,15 +55,39 @@ t_stack	*closest_match_target(t_stack *a, int needed)
 	return (node);
 }
 
-int	take_help(t_stack *a, t_stack *b, t_stack *target, t_stack *node)
+//get the target for a swap.. may not need only need to try this for the top value of A....
+
+t_stack	*swap_target(t_stack *a, int needed)
+{
+	t_stack	*curr_a;
+	t_stack	*node;
+	int		diff;
+
+	node = NULL;
+	curr_a = a;
+	diff = INTMAX;
+	while (curr_a)
+	{
+		if (((needed - curr_a->final_pos) < diff)
+			&& (curr_a->final_pos <= needed))
+		{
+			node = curr_a;
+			diff = needed - curr_a->final_pos;
+		}
+		curr_a = curr_a->next;
+	}
+	if (diff == INTMAX)
+		node = highest(a);
+	return (node);
+}
+
+int	set_up_down(t_stack *a, t_stack *b, t_stack *target, t_stack *node)
 {
 	int	size_a;
 	int	size_b;
 	int	moves_up;
 	int	moves_down;
 
-	if (!a || !b ||!target ||!node)
-		return (0);
 	size_b = ft_size(b);
 	size_a = ft_size(a);
 	if (node->curr_pos >= target->curr_pos)
@@ -76,41 +99,68 @@ int	take_help(t_stack *a, t_stack *b, t_stack *target, t_stack *node)
 	else
 		moves_down = size_a - target->curr_pos;
 	if (moves_up <= moves_down)
-		return (1);
+	{
+		node->return_cost = moves_up;
+		return (node->direction = 1);
+	}
 	else
-		return (-1);
+	{
+		node->return_cost = moves_down;
+		return (node->direction = -1);
+	}
 }
 
 int	get_least_cost(t_stack *target, t_stack *node, t_stack *a, t_stack *b)
 {
-	int	first;
-	int	second;
+	int	opposite;
+	int	up_down;
 
-	first = target->cost + node->cost;
-	if (take_help(a, b, target, node) == 1)
+	opposite = target->cost + node->cost;
+	set_up_down(a, b, target, node);
+	up_down = node->return_cost;
+	if (opposite < up_down - 1)
 	{
-		if (target->curr_pos >= node->curr_pos)
-			second = target->curr_pos;
-		else
-			second = node->curr_pos;
+		node->direction = 0;
+		return (opposite);
 	}
 	else
-	{
-		if ((ft_size(b) - node->curr_pos) >= ft_size(a) - target->curr_pos)
-			second = ft_size(b) - node->curr_pos;
-		else
-			second = ft_size(a) - target->curr_pos;
-	}
-	if (first < second)
-		return (first);
-	else
-		return (second);
+		return (up_down);
 }
 
+//version to try with swap_send
+
+/* void	set_return_cost(t_stack *a, t_stack *b)
+{
+	t_stack	*curr_b;
+	int		swap_cost;
+	int		cost;
+
+	curr_b = b;
+	while (curr_b)
+	{
+		curr_b->target = closest_match_target(a, curr_b->final_pos);
+		curr_b->swap_target = swap_target(a, curr_b->final_pos);
+		cost = get_least_cost(curr_b->target, curr_b, a, b);
+		swap_cost = get_least_cost(curr_b->swap_target, curr_b, a, b) + 1;
+		//printf("--------------swaptarg_fp: %d  curr: %d\n" , curr_b->swap_target->final_pos, curr_b->final_pos);
+		if (swap_cost <= cost)
+		{
+			curr_b->return_cost = swap_cost;
+			curr_b->use_swap = true;
+		}
+		else
+		{
+			curr_b->return_cost = get_least_cost(curr_b->target, curr_b, a, b);
+			curr_b->use_swap = false;
+		}
+		curr_b = curr_b->next;
+	}
+} */
+//orig
 void	set_return_cost(t_stack *a, t_stack *b)
 {
 	t_stack	*curr_b;
-	
+
 	curr_b = b;
 	while (curr_b)
 	{

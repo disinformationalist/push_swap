@@ -77,11 +77,34 @@ void	move_to_top_a(t_stack **a, t_stack *node)
 	}
 }
 
+t_stack *get_2nd_cheapest(t_stack *stack, int num, t_stack *cheapest)
+{
+	t_stack	*cheapest2;
+	int		n;
+
+	n = INTMAX;
+	cheapest2 = NULL;
+	while (stack)
+	{
+		if (stack->cost < n && stack->final_pos < num && stack != cheapest 
+			&& (stack->above_mid || stack->cost == 1))
+		{
+			n = stack->cost;
+			cheapest2 = stack;
+		}
+		stack = stack->next;
+	}
+	return (cheapest2);
+}
+
 t_stack	*get_cheapest(t_stack *stack, int num)
 {
 	int		n;
 	t_stack	*cheapest;
-
+/* 	t_stack	*cheap2;
+	t_stack	*start;
+	
+	start = stack; */
 	if (stack == NULL)
 		return (NULL);
 	set_curr_pos_cost(stack);
@@ -89,12 +112,18 @@ t_stack	*get_cheapest(t_stack *stack, int num)
 	cheapest = NULL;
 	while (stack)
 	{
-		if (stack->cost < n && stack->final_pos < num)
+		if (stack->cost < n && stack->final_pos < num 
+			&& (stack->above_mid || stack->cost == 1))
 		{
 			n = stack->cost;
 			cheapest = stack;
 		}
 		stack = stack->next;
 	}
-	return (cheapest);
+/* 	cheap2 = get_2nd_cheapest(start, num, cheapest);
+	if (cheap2 && cheap2->cost < 2 && cheap2->final_pos < num / //!cheapest->above_mid && cheap2->cost < cheapest->cost + 2)
+		return (cheap2);
+	else */
+		return (cheapest);
 }
+//if (stack->cost < n && stack->final_pos < num && stack->above_mid)

@@ -45,13 +45,26 @@ CC := cc
 
 OBS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
+MAKEFLAGS += --no-print-directory
+
+COLOR_RESET = \033[0m
+COLOR_GREEN = \033[1;92m
+COLOR_BLUE = \033[1;96m 
+
+
+define print_colored
+	@echo "$(COLOR_GREEN)$(1)$(COLOR_BLUE)$(2)$(COLOR_RESET)$(3)"
+endef
+
+MAKEFLAGS += --no-print-directory
+
 .SILENT:
 
 all: libmake $(NAME)
 
-
 $(NAME): $(ARCHIVE)
 	$(CC) $< -L./libft -lft -o $@
+	$(call print_colored, "[SUCCESS]", "./$(NAME)", "Ready")
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)

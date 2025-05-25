@@ -28,6 +28,8 @@ CC := cc
 OBS := $(SRCS:.c=.o)
 BOBS := $(BONUS_SRCS:.c=.o)
 
+.SILENT:
+
 all: $(NAME)
 
 $(NAME): $(OBS)

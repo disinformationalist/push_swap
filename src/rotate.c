@@ -40,7 +40,6 @@ void	rb(t_stack **b, int checker)
 	if (!checker)
 		write(1, "rb\n", 3);
 	moves++;
-
 }
 
 void	rr(t_stack **a, t_stack **b, int checker)

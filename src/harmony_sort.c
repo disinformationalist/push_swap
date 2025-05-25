@@ -21,14 +21,16 @@ static void	reset_leave(t_stack *stack)
 	}
 }
 
-static t_stack	*get_st(t_stack *stack, int st)
+//gets node with given final position
+
+static t_stack	*get_node(t_stack *stack, int fp)
 {
 	t_stack	*node;
 
 	node = NULL;
 	while (stack)
 	{
-		if (stack->final_pos == st)
+		if (stack->final_pos == fp)
 			node = stack;
 		stack = stack->next;
 	}
@@ -65,7 +67,7 @@ static void	create_cyc(t_stack *a, t_stack *st, int limit, int chk_ahead)
 		par.i = -1;
 		par.min_diff = ft_size(a) / limit;
 		par.nxt_st = NULL;
-		while (++par.i < chk_ahead && par.curr && par.curr->final_pos != 0)
+		while (++par.i < chk_ahead && par.curr && !par.curr->leave)
 		{
 			if (par.curr->final_pos - st->final_pos < par.min_diff
 				&& par.curr->final_pos >= st->final_pos)
@@ -75,7 +77,7 @@ static void	create_cyc(t_stack *a, t_stack *st, int limit, int chk_ahead)
 			}
 			par.curr = par.curr->next;
 		}
-		if (par.curr != NULL && par.curr->final_pos == 0)
+		if (par.curr != NULL && par.curr->leave)
 			break ;
 		par.curr = cyc_2(a, par.curr, par.nxt_st, st);
 		if (par.nxt_st)
@@ -97,7 +99,7 @@ void	get_biggest_cyclic(t_stack *a, int st, int biggest)
 		j = 1;
 		while (++j < 30)
 		{
-			create_cyc(a, get_st(a, st), i, j);
+			create_cyc(a, get_node(a, st), i, j);
 			size = leave_size(a);
 			if (size > biggest)
 			{
@@ -108,5 +110,5 @@ void	get_biggest_cyclic(t_stack *a, int st, int biggest)
 			reset_leave(a);
 		}
 	}
-	create_cyc(a, get_st(a, st), max_i, max_j);
+	create_cyc(a, get_node(a, st), max_i, max_j);
 }

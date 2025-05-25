@@ -78,11 +78,38 @@ int	leave_size(t_stack *stack)
 	return (count);
 }
 
+//gets 2nd cheapest to send to B ignoring flagged nodes
+
+t_stack *get_2nd_cheapest_2(t_stack *stack, int num, t_stack *cheapest)
+{
+	t_stack	*cheapest2;
+	int		n;
+
+	n = INTMAX;
+	cheapest2 = NULL;
+	while (stack)
+	{
+		if (stack->cost < n && stack->final_pos < num 
+			&& stack != cheapest && !stack->leave)
+		{
+			n = stack->cost;
+			cheapest2 = stack;
+		}
+		stack = stack->next;
+	}
+	return (cheapest2);
+}
+
+//gets cheapest to send to B ignoring flagged nodes
+
 t_stack	*get_cheapest_2(t_stack *stack, int num)
 {
 	int		n;
 	t_stack	*cheapest;
+	//t_stack	*cheap2;
+	//t_stack	*start;
 
+	//start = stack;
 	if (stack == NULL)
 		return (NULL);
 	set_curr_pos_cost(stack);
@@ -90,12 +117,18 @@ t_stack	*get_cheapest_2(t_stack *stack, int num)
 	cheapest = NULL;
 	while (stack)
 	{
-		if (stack->cost < n && stack->final_pos < num && !stack->leave)
+		if (stack->cost < n && stack->final_pos < num && !stack->leave 
+			&& (stack->above_mid || stack->cost == 1))
 		{
 			n = stack->cost;
 			cheapest = stack;
 		}
 		stack = stack->next;
 	}
-	return (cheapest);
+	/* cheap2 = get_2nd_cheapest_2(start, num, cheapest);
+	if (cheap2 && !cheapest->above_mid && cheap2->above_mid && cheap2->cost < cheapest->cost + 2)
+		return (cheap2);
+	else */
+		return (cheapest);
 }
+//if (cheap2 && !cheapest->above_mid && cheap2->above_mid && cheap2->cost < cheapest->cost + 2)

@@ -24,6 +24,10 @@ CC := cc
 
 OBS := $(SRCS:.c=.o)
 
+MAKEFLAGS += --no-print-directory
+
+.SILENT:
+
 all: $(NAME)
 
 $(NAME) : $(OBS) $(PUSH_SWAP_A) $(LIBFT_A)
