@@ -36,17 +36,20 @@ t_stack	*ft_last(t_stack *lst)
 
 t_stack	*lowest(t_stack *stack)
 {
-	long	n;
+	int		n;
+	int		content;
 	t_stack	*lowest;
+
 
 	if (stack == NULL)
 		return (NULL);
 	n = INTMAX;
 	while (stack)
 	{
-		if (stack->content < n)
+		content = stack->content;
+		if (content < n)
 		{
-			n = stack->content;
+			n = content;
 			lowest = stack;
 		}
 		stack = stack->next;
@@ -56,7 +59,8 @@ t_stack	*lowest(t_stack *stack)
 
 t_stack	*highest(t_stack *stack)
 {
-	long	n;
+	int		n;
+	int		content;
 	t_stack	*highest;
 
 	if (stack == NULL)
@@ -64,9 +68,10 @@ t_stack	*highest(t_stack *stack)
 	n = INTMIN;
 	while (stack)
 	{
-		if (stack->content > n)
+		content = stack->content;
+		if (content > n)
 		{
-			n = stack->content;
+			n = content;
 			highest = stack;
 		}
 		stack = stack->next;

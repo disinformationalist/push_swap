@@ -13,10 +13,10 @@ Here are the approximate speeds for my solution, from testing with 5000 random s
 | 3                | 1.3                    | 1                     | 2                      |
 | 4                | 3.3                    | 1                     | 6                      |
 | 5                | 6                      | 1                     | 8                      |
-| 50               | 210                    | 161                   | 265                    |
+| 50               | 218                    | 158                   | 262                    |
 | 100              | **520** 🏁🏁🏁         | **428**               | **605**                |
-| 250              | 1655                   | 1463                  | 1867                   |
-| 500              | **3770** 🏁🏁🏁        | **3389**              | **4082**               |
+| 250              | 1652                   | 1452                  | 1872                   |
+| 500              | **3763** 🏁🏁🏁        | **3389**              | **4085**               |
 
 ## The Problem, The Goal, and The Rules
 
@@ -96,8 +96,8 @@ And now for the 11 secret herbs and spices....
 
 ## Logic outline
 
-It isn't feasable to sort stack A in place in reasonable time given the restrictions, 
-so we know we will need to move some to stack B and back. So what are our options?
+It isn't feasable to sort stack A in place in reasonable moves given the restrictions, except for 
+very small stacks, so we know we will need to move some to stack B and back. So what are our options?
 
 ### Option 1.
 We could move all but the last few over, sort those easily in A, then return the others
@@ -113,14 +113,14 @@ Lastly (for both options) we apply conditions to be considered when moving a nod
 can make smarter choices.
 
 So which one will we use.... the answer is both. The version of 1 was the fastest for stacks over 210 or so,
-and the 2nd was faster for the smaller stacks of  less than approximately 210.
+and the 2nd was faster for the smaller stacks of less than approximately 210.
 
 Let's look at 1 first.
 
 ## Option 1 (210 or more)
 
-So now the problem has become how to move the values from A to B with the maximum amount of presorting,
-and then back to the right place in A as quickly as possible. 
+So now the problem has become how to move the values from A to B with the maximum amount of presorting
+at the lowest possible move expense, and then move them back to the right place in A with the fewest moves possible. 
 
 **Step 1. Get final positions**
 
@@ -130,13 +130,13 @@ and then we place the final position for a value with its node. For example:
 Note that final position is the final position of the values in Unsorted,
 and matches their position in the Sorted list.
 
-| Unsorted | Sorted |  Final Position |
-|----------|--------|-----------------|
-|	5      |   2    |  3              |
-|	6      |   3    |  4              |
-|	3      |   5    |  2              |
-|	2      |   6    |  1              |
-|	7      |   7    |  5              |
+| Unsorted | Sorted |  Final Position (goes with values in the unsorted list)|
+|----------|--------|--------------------------------------------------------|
+|	5      |   2    |  3                                                     |
+|	6      |   3    |  4                                                     |
+|	3      |   5    |  2                                                     |
+|	2      |   6    |  1                                                     |
+|	7      |   7    |  5                                                     |
 
 We now know that 3 ends in the second postion, 6 in the 4th, etc.
 This information will be very valuable for the rest of the algorithm.

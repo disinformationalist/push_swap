@@ -22,8 +22,6 @@
 # include <stdbool.h>
 # include "../libft/libft.h"
 
-//# define TOL 5
-
 //counter for total moves to sort
 extern int moves;
 
@@ -94,6 +92,8 @@ void	check_and_build_stack(t_stack **a, char **av, int *tab, int i);
 void	init(t_stack **a, char **av, int len);
 void	set_curr_pos_cost(t_stack *stack);
 void	move_to_top_a(t_stack **a, t_stack *node);
+//void	move_to_top_a(t_stack **a, t_stack **b, t_stack *node);
+
 void	add_node(t_stack **stack, char **av, int *tab, long n);
 void	ft_assign(t_stack *a, int *tab, int len);
 t_stack	*lowest(t_stack *stack);
@@ -101,6 +101,8 @@ t_stack	*highest(t_stack *stack);
 t_stack	*ft_last(t_stack *lst);
 t_stack	*stack_copy(t_stack *to_copy);
 void	print_stack(t_stack *stack);
+void	write_ops(const char *s, int len, int cost);
+bool	swap_test(t_stack **a, t_stack **b, int loop);
 
 
 /****SORTING****/
@@ -109,7 +111,7 @@ int		is_sorted(t_stack *stack);
 int		is_cyclic_sorted(t_stack *stack);
 void	push_swap(t_stack **a, t_stack **b, int len);
 void	sort_3(t_stack **stack);
-void	sort_5(t_stack **a, t_stack **b);
+void	sort_small(t_stack **a, t_stack **b);
 void	ft_quicksort(int *tab, int start, int end);
 void	sort_now(t_stack **a, t_stack **b);
 void	take_it_home(t_stack **a, t_stack **b);
@@ -118,6 +120,13 @@ void	take_it_home_500(t_stack **a, t_stack **b);
 void	cycle(t_stack **a);
 void	get_biggest_cyclic(t_stack *a, int start, int biggest);
 
+/*SOME SORT 5 HARDCODES*/
+
+int		rasararasara(t_stack **a);
+int		pbpbssparrapara(t_stack **a, t_stack **b);
+int		sararasararasa(t_stack **a);
+int		rapbpbsbrapapa(t_stack **a, t_stack**b);
+int		rrapbrrarrasapara(t_stack **a, t_stack **b);
 
 /****ROUTES****/
 void	route_1(t_stack **a, t_stack **b, t_stack *target, t_stack *node);

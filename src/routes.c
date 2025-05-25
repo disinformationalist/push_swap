@@ -18,7 +18,7 @@ void	route_1(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 	int	a_rots;
 
 	rr_rots = node->curr_pos;
-	a_rots = target->curr_pos - node->curr_pos;
+	a_rots = target->curr_pos - rr_rots;
 	while (rr_rots)
 	{
 		rr(a, b, 0);
@@ -37,7 +37,7 @@ void	route_2(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 	int	b_rots;
 
 	rr_rots = target->curr_pos;
-	b_rots = node->curr_pos - target->curr_pos;
+	b_rots = node->curr_pos - rr_rots;
 	while (rr_rots)
 	{
 		rr(a, b, 0);

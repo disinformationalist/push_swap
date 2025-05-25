@@ -112,7 +112,7 @@ static int	try_sort_500_ops(t_stack **a, t_stack **b, int num_prev, int num)
 	/* if (swap_test(a, b))//new
 		return (1); */
 	to_send = get_cheapest(*a, num_prev + num);
-	move_to_top_a(a, to_send);
+	move_to_top_a(a, b, to_send);
 	pb(b, a, 1);
 	next_node = get_cheapest(*a, num_prev + num);
 	if ((next_node && (*b)->final_pos < num_prev + num / 2)

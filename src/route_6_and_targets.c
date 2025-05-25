@@ -36,17 +36,21 @@ t_stack	*closest_match_target(t_stack *a, int needed)
 	t_stack	*curr_a;
 	t_stack	*node;
 	int		diff;
+	int		curr_fp;
+	int		curr_diff;
 
 	node = NULL;
 	curr_a = a;
 	diff = INTMAX;
 	while (curr_a)
 	{
-		if (((curr_a->final_pos - needed) < diff)
-			&& (curr_a->final_pos >= needed))
+		curr_fp = curr_a->final_pos;
+		curr_diff = curr_fp - needed;
+		if ((curr_diff < diff)
+			&& (curr_fp >= needed))
 		{
 			node = curr_a;
-			diff = curr_a->final_pos - needed;
+			diff = curr_diff;
 		}
 		curr_a = curr_a->next;
 	}
@@ -62,17 +66,21 @@ t_stack	*swap_target(t_stack *a, int needed)
 	t_stack	*curr_a;
 	t_stack	*node;
 	int		diff;
+	int		curr_fp;
+	int		curr_diff;
 
 	node = NULL;
 	curr_a = a;
 	diff = INTMAX;
 	while (curr_a)
 	{
-		if (((needed - curr_a->final_pos) < diff)
-			&& (curr_a->final_pos <= needed))
+		curr_fp = curr_a->final_pos;
+		curr_diff = curr_fp - needed;
+		if ((curr_diff < diff)
+			&& (curr_fp <= needed))
 		{
 			node = curr_a;
-			diff = needed - curr_a->final_pos;
+			diff = curr_diff;
 		}
 		curr_a = curr_a->next;
 	}
@@ -127,6 +135,20 @@ int	get_least_cost(t_stack *target, t_stack *node, t_stack *a, t_stack *b)
 		return (up_down);
 }
 
+//orig
+void	set_return_cost(t_stack *a, t_stack *b)
+{
+	t_stack	*curr_b;
+
+	curr_b = b;
+	while (curr_b)
+	{
+		curr_b->target = closest_match_target(a, curr_b->final_pos);
+		curr_b->return_cost = get_least_cost(curr_b->target, curr_b, a, b);
+		curr_b = curr_b->next;
+	}
+}
+
 //version to try with swap_send
 
 /* void	set_return_cost(t_stack *a, t_stack *b)
@@ -156,16 +178,28 @@ int	get_least_cost(t_stack *target, t_stack *node, t_stack *a, t_stack *b)
 		curr_b = curr_b->next;
 	}
 } */
-//orig
-void	set_return_cost(t_stack *a, t_stack *b)
+
+//now with top swap target
+/* void	set_return_cost(t_stack *a, t_stack *b)
 {
 	t_stack	*curr_b;
 
 	curr_b = b;
+	curr_b->swap_target = swap_target(a, curr_b->final_pos);
+	if (a == curr_b->swap_target && b->next && b->next->final_pos > b->final_pos)
+	{
+		curr_b->return_cost = 1;
+		curr_b->use_swap = true;
+		curr_b = curr_b->next;
+	}
+	else
+		curr_b->use_swap = false;
 	while (curr_b)
 	{
 		curr_b->target = closest_match_target(a, curr_b->final_pos);
 		curr_b->return_cost = get_least_cost(curr_b->target, curr_b, a, b);
 		curr_b = curr_b->next;
 	}
-}
+	
+} */
+

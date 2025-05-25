@@ -20,20 +20,22 @@ t_stack	*get_cheapest_return_interval(t_stack *b, int start, int end)
 {
 	t_stack	*to_return;
 	t_stack	*b_curr;
-	int		cheapest_return_val;
+	int		least_cost;
+	int		cost;
+	int		fp;
 
 	b_curr = b;
 	to_return = NULL;
-	cheapest_return_val = INTMAX;
+	least_cost = INTMAX;
 	while (b_curr)
 	{
-		if ((b_curr->final_pos >= start && b_curr->final_pos <= end)
-			&& ((b_curr->return_cost < cheapest_return_val)
-			|| (b_curr->return_cost == cheapest_return_val 
-			&& b_curr->final_pos > to_return->final_pos)))
+		cost = b_curr->return_cost;
+		fp = b_curr->final_pos;
+		if ((fp >= start && fp <= end) && ((cost < least_cost) 
+		|| (cost == least_cost && fp > to_return->final_pos)))
 		{
 			to_return = b_curr;
-			cheapest_return_val = b_curr->return_cost;
+			least_cost = cost;
 		}
 		b_curr = b_curr->next;
 	}
@@ -45,19 +47,19 @@ t_stack	*get_cheapest_return_interval(t_stack *b, int start, int end)
 {
 	t_stack	*to_return;
 	t_stack	*b_curr;
-	int		cheapest_return_val;
+	int		least_cost;
 
 	b_curr = b;
 	to_return = NULL;
-	cheapest_return_val = INTMAX;
+	least_cost = INTMAX;
 	while (b_curr)
 	{
-		if (((b_curr->return_cost < cheapest_return_val) 
-			|| (b_curr->return_cost == cheapest_return_val 
+		if (((b_curr->return_cost < least_cost) 
+			|| (b_curr->return_cost == least_cost 
 			&& b_curr->final_pos > to_return->final_pos)) && b_curr != cheapest)
 		{
 			to_return = b_curr;
-			cheapest_return_val = b_curr->return_cost;
+			least_cost = b_curr->return_cost;
 		}
 		b_curr = b_curr->next;
 	}
@@ -68,21 +70,21 @@ t_stack	*get_cheapest_return(t_stack *b)
 {
 	t_stack	*cheapest;
 	t_stack	*b_curr;
-	int		cheapest_return_val;
+	int		least_cost;
 	t_stack	*cheap2;
 
 	set_curr_pos_cost(b);
 	b_curr = b;
 	cheapest = NULL;
-	cheapest_return_val = INTMAX;
+	least_cost = INTMAX;
 	while (b_curr)
 	{
-		if ((b_curr->return_cost < cheapest_return_val) 
-			|| (b_curr->return_cost == cheapest_return_val 
+		if ((b_curr->return_cost < least_cost) 
+			|| (b_curr->return_cost == least_cost 
 			&& b_curr->final_pos > cheapest->final_pos))
 		{
 			cheapest = b_curr;
-			cheapest_return_val = b_curr->return_cost;
+			least_cost = b_curr->return_cost;
 		}
 		b_curr = b_curr->next;
 	}
@@ -95,30 +97,31 @@ t_stack	*get_cheapest_return(t_stack *b)
  */
 
 // delivers the node with the cheapest return to stack A
+// Ties are broken by choosing the largest final pos node
 
 t_stack	*get_cheapest_return(t_stack *b)
 {
 	t_stack	*to_return;
 	t_stack	*b_curr;
-	int		cheapest_return_val;
+	int		least_cost;
+	int		cost;
 
 	b_curr = b;
 	to_return = NULL;
-	cheapest_return_val = INTMAX;
+	least_cost = INTMAX;
 	while (b_curr)
 	{
-		if ((b_curr->return_cost < cheapest_return_val) 
-			|| (b_curr->return_cost == cheapest_return_val 
+		cost = b_curr->return_cost;
+		if ((cost < least_cost) || (cost == least_cost 
 			&& b_curr->final_pos > to_return->final_pos))
 		{
 			to_return = b_curr;
-			cheapest_return_val = b_curr->return_cost;
+			least_cost = cost;
 		}
 		b_curr = b_curr->next;
 	}
 	return (to_return);
 }
-
 
 //take the shortest up/down route: 1,2 ups : 3,4 downs
 

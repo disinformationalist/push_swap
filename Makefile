@@ -35,6 +35,8 @@ SRCS := ./src/free.c \
 ./src/sort_utils.c \
 ./src/sort.c \
 ./src/swap.c \
+./src/swap_test.c \
+./src/hard_codes.c \
 ./src/take_shortest.c \
 ./src/utils_2.c \
 ./src/utils.c 

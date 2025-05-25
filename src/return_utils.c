@@ -81,22 +81,8 @@ void	take_it_home_500(t_stack **a, t_stack **b)
 
 	reverse_loops(a, b, 485, 472);
 	reverse_loops(a, b, 457, 437);
-	reverse_loops(a, b, 415, 333);//just these two with harm
-	reverse_loops(a, b, 249, 125);//125);
-	/* set_curr_pos_cost(*a);
-	set_curr_pos_cost(*b);
-	set_return_cost(*a, *b);
-	if ((*b)->final_pos < (*b)->next->final_pos)
-		node_to_return = *b;
-	else
-		node_to_return = (*b)->next;
-	take_route(a, b, node_to_return->target, node_to_return);
-	set_curr_pos_cost(*a);
-	set_curr_pos_cost(*b);
-	set_return_cost(*a, *b);
-	node_to_return = *b;
-	take_route(a, b, node_to_return->target, node_to_return); */
-	//take_it_home(a, b);
+	reverse_loops(a, b, 415, 333);//just these two with harm, take_it_home for the rest
+	reverse_loops(a, b, 249, 125);
 	cycle(a);
 }
 
@@ -148,7 +134,7 @@ void	take_it_home_100(t_stack **a, t_stack **b)
 	take_route(a, b, node_to_return->target, node_to_return);
 	cycle(a); */
 	
-	reverse_loops(a, b, ft_size(*b) - 1, (ft_size(*b) + 10) / 2);//this might be good
+	//reverse_loops(a, b, ft_size(*b) - 1, (ft_size(*b) + 10) / 2);//this might be good
 	//reverse_loops(a, b, ft_size(*b), ft_size(*b) / 2);
 	take_it_home(a, b);
 }

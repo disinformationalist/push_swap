@@ -26,6 +26,8 @@ void	print_stack(t_stack *stack)
 	}
 }
 
+//add_node copied node
+
 void	add_copy_node(t_stack **copy, t_stack *new)
 {
 	t_stack	*last;
@@ -44,7 +46,6 @@ void	add_copy_node(t_stack **copy, t_stack *new)
 	}
 }
 
-//add_node
 //make a copy of a stacks current state
 
 t_stack	*stack_copy(t_stack *to_copy)
