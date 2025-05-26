@@ -126,5 +126,5 @@ t_stack	*get_cheapest_2(t_stack *stack, int num)
 		}
 		stack = stack->next;
 	}
-		return (cheapest);
+	return (cheapest);
 }

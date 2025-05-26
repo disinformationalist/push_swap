@@ -26,29 +26,13 @@
 extern int moves;
 
 //buffer to save moves
-/* 
+
 typedef struct s_buffer
 {
-	int positon;
-	char buffer[3][100000];
-} t_buffer; */
-
-//types to int buffer
-
-/* typedef enum e_op
-{
-	sa,
-	sb,
-	ss,
-	pa,
-	pb,
-	ra,
-	rb,
-	rr,
-	rra,
-	rrb,
-	rrr
-}	t_op; */
+	char 			move[4];
+	int 			count;
+	struct s_buffer *next;
+} t_buffer;
 
 typedef struct s_stack
 {
@@ -67,12 +51,13 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-typedef struct s_data
+
+typedef struct s_lists
 {
-	t_stack **a;
-	t_stack **b;
-	//add some kind of buffer for ops (list for resize?)
-} t_data;
+	t_stack 	**a;
+	t_stack 	**b;
+	t_buffer	*buff;
+} t_lists;
 
 typedef struct s_params
 {

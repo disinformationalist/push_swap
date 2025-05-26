@@ -12,6 +12,8 @@
 
 #include "push_swap.h"
 
+//try, when rra on send over, is lastb_fp == topb_fp + 1? if so rrr to build consecutive
+
 static void	harmony_ops(t_stack **a, t_stack **b, int set_mid, int top_lim)
 {
 	t_stack	*next_node;
@@ -24,19 +26,28 @@ static void	harmony_ops(t_stack **a, t_stack **b, int set_mid, int top_lim)
 	topb_fp = (*b)->final_pos;
 	if (b_next)
 	{
-		/* if (b_next->final_pos + 1 == (*b)->final_pos)//trying consecutives...
-		return ; */
 		bnext_fp = b_next->final_pos;
-		if (next_node && b_next && (topb_fp < set_mid)
+		//t_stack *b_last = ft_last(*b);
+
+		
+		/* if (next_node && ft_last(*b)->final_pos == topb_fp + 1 && !next_node->above_mid)
+			rrr(a, b, 0); */
+		/* if (next_node && next_node->cost > 1 && bnext_fp + 1 == topb_fp && bnext_fp < set_mid && topb_fp < set_mid)
+		{
+			rr(a, b, 0);
+			rr(a, b, 0);
+		} */
+		/* else if (bnext_fp + 1 == topb_fp)//trying consecutives..., if both are bot half, and 2 or more for next_node, do rr rr?
+			return ; */
+		if (next_node && next_node->curr_pos == 1
+			&& (topb_fp + 1 == bnext_fp))
+			ss(a, b, 0);
+		else if (next_node && (topb_fp < set_mid)
 			&& next_node->curr_pos != 0 && next_node->above_mid
 			&& bnext_fp >= set_mid)
 			rr(a, b, 0);
-		else if (topb_fp < set_mid && b_next
-			&& bnext_fp >= set_mid)
+		else if (topb_fp < set_mid && bnext_fp >= set_mid)
 			rb(b, 0);
-		else if (next_node && b_next && next_node->curr_pos == 1
-			&& (topb_fp + 1 == bnext_fp))
-			ss(a, b, 0);
 	}
 }
 //leave largest cyclic sorted set, presort those going to B
@@ -78,15 +89,22 @@ static void	sort_500_ops(t_stack **a, t_stack **b, int top_lim, int set_mid)
 	if (b_next)
 	{
 		bnext_fp = b_next->final_pos;
-		if (next_node && (topb_fp < set_mid)
-			&& next_node->curr_pos != 0 && next_node->above_mid
-			&& bnext_fp >= set_mid)
+		/* if (next_node && ft_last(*b)->final_pos == topb_fp + 1 && !next_node->above_mid)
+			rrr(a, b, 0);
+		else if (next_node && next_node->cost > 1 && bnext_fp + 1 == topb_fp && bnext_fp < set_mid && topb_fp < set_mid)
+		{
+			rr(a, b, 0);
+			rr(a, b, 0);
+		}
+		else if (bnext_fp + 1 == topb_fp)//trying consecutives..., if both are bot half, and 2 or more for next_node, do rr rr?
+			return ; */
+		if (next_node && next_node->curr_pos == 1 && (topb_fp + 1 == bnext_fp))
+			ss(a, b, 0);
+		else if (next_node && (topb_fp < set_mid) && next_node->curr_pos != 0 
+			&& next_node->above_mid && bnext_fp >= set_mid)
 			rr(a, b, 0);
 		else if (topb_fp < set_mid && bnext_fp >= set_mid)
 			rb(b, 0);
-		else if (next_node && next_node->curr_pos == 1
-			&& ((topb_fp + 1 == bnext_fp)))
-			ss(a, b, 0);
 	}
 }
 
