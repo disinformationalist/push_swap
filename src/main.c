@@ -71,31 +71,95 @@ t_stack	*stack_copy(t_stack *to_copy)
 	return (copy);
 }
 
+void	free_buff(t_buffer *buff)
+{
+	t_buffer *tmp;
+
+	while (buff)
+	{
+		tmp = buff->next;
+		free(buff);
+		buff = tmp;
+	}
+}
+
+void add_move(t_lists *all, char *move)
+{
+	t_buffer *new;
+	
+	new = (t_buffer *)malloc(sizeof(t_buffer));
+	if (!new)
+	{
+		free_stack(&all->a);
+		free_stack(&all->b);
+		free_buff(all->buff);
+	}
+	new->move = move;
+	new->next = NULL;
+	if (!all->tail)
+	{
+		all->buff = new;
+		all->tail = new;
+	}
+	else
+	{
+		all->tail->next = new;
+		all->tail = new;
+	}
+	all->count++;
+}	
+
+
+void	print_moves(t_buffer *buff)
+{
+	t_buffer *tmp;
+
+	tmp = buff;
+	while (tmp)
+	{
+		ft_putstr_fd(tmp->move, 1);
+		tmp = tmp->next;
+	}
+}
+
 int	main(int ac, char **argv)
 {
-	t_stack		*a;
-	t_stack		*b;
 	int			len;
 	char		**av;
+	t_lists		*all;
 
-	a = NULL;
-	b = NULL;
 	if (ac == 1 || (ac == 2 && !argv[1][0]))
 		return (1);
 	else
+	{
 		av = ft_join_args(argv);
+		all = (t_lists *)malloc(sizeof(t_lists));
+		if (!all)
+			return (EXIT_FAILURE);
+		all->a = NULL;
+		all->b = NULL;
+		all->count = 0;
+		all->buff = NULL;
+		all->tail = NULL;
+	}
 	len = len_av(av);
-	init(&a, av, len);
-	if (!is_sorted(a))
+	init(&all->a, av, len);
+	if (!is_sorted(all->a))
 	{
 		if (len == 2)
-			sa(&a, 0);
+			sa(all, 0);
 		else if (len == 3)
-			sort_3(&a);
+			sort_3(all, all->a);
 		else
-			push_swap(&a, &b, len);
+		{
+			push_swap(all, all->a, len);
+		}
+		print_moves(all->buff);
+		free_buff(all->buff);
 	}
-	free_stack(&a);
+	//print_stack(all->a);
+	free_stack(&all->a);
+	free(all);
 	//printf("\nMoves: %d\n", moves);
 	return (0);
 }

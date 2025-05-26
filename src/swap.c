@@ -30,7 +30,29 @@ void	swap(t_stack **head)
 	*head = n_2;
 }
 
-void	sa(t_stack **a, int checker)
+void	sa(t_lists *all, int checker)
+{
+	swap(&(all->a));
+	if (!checker)
+		add_move(all, "sa\n");
+}
+
+void	sb(t_lists *all, int checker)
+{
+	swap(&(all->b));
+	if (!checker)
+		add_move(all, "sb\n");
+}
+
+void	ss(t_lists *all, int checker)
+{
+	swap(&(all->a));
+	swap(&(all->b));
+	if (!checker)
+		add_move(all, "ss\n");
+}
+
+/* void	sa(t_stack **a, int checker)
 {
 	swap(a);
 	if (!checker)
@@ -53,4 +75,4 @@ void	ss(t_stack **a, t_stack **b, int checker)
 	if (!checker)
 		write(1, "ss\n", 3);
 	moves++;
-}
+} */

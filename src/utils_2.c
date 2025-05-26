@@ -82,28 +82,30 @@ void	set_curr_pos_cost(t_stack *stack)
 	}
 } */
 
-void	move_to_top_a(t_stack **a, t_stack *node)
+void	move_to_top_a(t_lists *all, t_stack *node)
 {
-	int	i;
-	int	pos;
-	int	size;
-	int	center;
+	int		i;
+	int		pos;
+	int		size;
+	int		center;
+	t_stack	*a;
 
+	a = all->a;
 	if (!node)
 		return ;
 	i = -1;
-	pos = get_curr_pos(*a, node);
-	size = ft_size(*a);
+	pos = get_curr_pos(a, node);
+	size = ft_size(a);
 	center = size / 2;
 	if (pos <= center)
 	{
 		while (++i < pos)
-			ra(a, 0);
+			ra(all, 0);
 	}
 	else if (pos > center)
 	{
 		while (++i < size - pos)
-			rra(a, 0);
+			rra(all, 0);
 	}
 }
 

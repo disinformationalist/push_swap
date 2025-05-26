@@ -29,8 +29,7 @@ extern int moves;
 
 typedef struct s_buffer
 {
-	char 			move[4];
-	int 			count;
+	char 			*move;
 	struct s_buffer *next;
 } t_buffer;
 
@@ -54,9 +53,12 @@ typedef struct s_stack
 
 typedef struct s_lists
 {
-	t_stack 	**a;
-	t_stack 	**b;
+	t_stack 	*a;
+	t_stack 	*b;
 	t_buffer	*buff;
+	t_buffer	*tail;
+	int 		count;
+
 } t_lists;
 
 typedef struct s_params
@@ -76,9 +78,7 @@ long	ft_atoil(const char *nptr);
 void	check_and_build_stack(t_stack **a, char **av, int *tab, int i);
 void	init(t_stack **a, char **av, int len);
 void	set_curr_pos_cost(t_stack *stack);
-void	move_to_top_a(t_stack **a, t_stack *node);
-//void	move_to_top_a(t_stack **a, t_stack **b, t_stack *node);
-
+void	move_to_top_a(t_lists *all, t_stack *node);
 void	add_node(t_stack **stack, char **av, int *tab, long n);
 void	ft_assign(t_stack *a, int *tab, int len);
 t_stack	*lowest(t_stack *stack);
@@ -86,45 +86,55 @@ t_stack	*highest(t_stack *stack);
 t_stack	*ft_last(t_stack *lst);
 t_stack	*stack_copy(t_stack *to_copy);
 void	print_stack(t_stack *stack);
+
 void	write_ops(const char *s, int len, int cost);
-bool	swap_test(t_stack **a, t_stack **b, int loop);
+bool	swap_test(t_lists *all, int loop);
+void	add_move(t_lists *all, char *move);
+void	print_moves(t_buffer *buff);
+
 
 
 /****SORTING****/
 int		leave_size(t_stack *stack);
 int		is_sorted(t_stack *stack);
 int		is_cyclic_sorted(t_stack *stack);
-void	push_swap(t_stack **a, t_stack **b, int len);
-void	sort_3(t_stack **stack);
-void	sort_small(t_stack **a, t_stack **b);
+
+void	sort_3(t_lists *all, t_stack *stack);
+
+void	sort_small(t_lists *all, t_stack *a);
+void	push_swap(t_lists *all, t_stack *a, int len);
+
+
 void	ft_quicksort(int *tab, int start, int end);
-void	sort_now(t_stack **a, t_stack **b);
-void	take_it_home(t_stack **a, t_stack **b);
-void	take_it_home_100(t_stack **a, t_stack **b);
-void	take_it_home_500(t_stack **a, t_stack **b);
-void	cycle(t_stack **a);
+void	sort_now(t_lists *all, t_stack *a);
+
+void	take_it_home_100(t_lists *all);
+void	take_it_home_500(t_lists *all);
+void	take_it_home(t_lists *all);
+void	cycle(t_lists *all);
+
 void	get_biggest_cyclic(t_stack *a, int start, int biggest);
 
 /*SOME SORT 5 HARDCODES*/
 
-int		rasararasara(t_stack **a);
-int		pbpbssparrapara(t_stack **a, t_stack **b);
-int		sararasararasa(t_stack **a);
-int		rapbpbsbrapapa(t_stack **a, t_stack**b);
-int		rrapbrrarrasapara(t_stack **a, t_stack **b);
+int		rasararasara(t_lists *all);
+int		pbpbssparrapara(t_lists *all);
+int		sararasararasa(t_lists *all);
+int		rapbpbsbrapapa(t_lists *all);
+int		rrapbrrarrasapara(t_lists *all);
 
 /****ROUTES****/
-void	route_1(t_stack **a, t_stack **b, t_stack *target, t_stack *node);
-void	route_2(t_stack **a, t_stack **b, t_stack *target, t_stack *node);
-void	route_3(t_stack **a, t_stack **b, t_stack *target, t_stack *node);
-void	route_4(t_stack **a, t_stack **b, t_stack *target, t_stack *node);
-void	route_5(t_stack **a, t_stack **b, t_stack *target, t_stack *node);
-void	route_6(t_stack **a, t_stack **b, t_stack *target, t_stack *node);
+void	route_1(t_lists *all, t_stack *target, t_stack *node);
+void	route_2(t_lists *all, t_stack *target, t_stack *node);
+void	route_3(t_lists *all, t_stack *target, t_stack *node);
+void	route_4(t_lists *all, t_stack *target, t_stack *node);
+void	route_5(t_lists *all, t_stack *target, t_stack *node);
+void	route_6(t_lists *all, t_stack *target, t_stack *node);
 
 /****TARGETS AND COST****/
 int		get_least_cost(t_stack *target, t_stack *node, t_stack *a, t_stack *b);
 void	set_return_cost(t_stack *a, t_stack *b);
-void	take_route(t_stack **a, t_stack **b, t_stack *target, t_stack *node);
+void	take_route(t_lists *all, t_stack *target, t_stack *node);
 t_stack	*closest_match_target(t_stack *a, int needed);
 t_stack	*get_cheapest(t_stack *stack, int num);
 t_stack	*get_cheapest_2(t_stack *stack, int num);
@@ -133,17 +143,17 @@ t_stack	*get_cheapest_return(t_stack *b);
 t_stack	*get_cheapest_return_interval(t_stack *b, int start, int end);
 
 /***STACK OPS***/
-void	sa(t_stack **a, int checker);
-void	sb(t_stack **b, int checker);
-void	ss(t_stack **a, t_stack **b, int checker);
-void	pa(t_stack **a, t_stack **b, int checker);
-void	pb(t_stack **b, t_stack **a, int checker);
-void	ra(t_stack **a, int checker);
-void	rb(t_stack **b, int checker);
-void	rr(t_stack **a, t_stack **b, int checker);
-void	rra(t_stack **a, int checker);
-void	rrb(t_stack **b, int checker);
-void	rrr(t_stack **a, t_stack **b, int checker);
+void	sa(t_lists *all, int checker);
+void	sb(t_lists *all, int checker);
+void	ss(t_lists *all, int checker);
+void	pa(t_lists *all, int checker);
+void	pb(t_lists *all, int checker);
+void	ra(t_lists *all, int checker);
+void	rb(t_lists *all, int checker);
+void	rr(t_lists *all, int checker);
+void	rra(t_lists *all, int checker);
+void	rrb(t_lists *all, int checker);
+void	rrr(t_lists *all, int checker);
 
 /**** CLEAN UP ****/
 void	free_stack(t_stack **stack);

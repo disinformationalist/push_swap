@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	route_6(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
+void	route_6(t_lists *all, t_stack *target, t_stack *node)
 {
 	int	a_rots;
 	int	b_rots;
@@ -21,12 +21,12 @@ void	route_6(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 	b_rots = node->cost;
 	while (a_rots)
 	{
-		rra(a, 0);
+		rra(all, 0);
 		a_rots--;
 	}
 	while (b_rots)
 	{
-		rb(b, 0);
+		rb(all, 0);
 		b_rots--;
 	}
 }

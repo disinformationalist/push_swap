@@ -14,16 +14,16 @@
 
 //try, when rra on send over, is lastb_fp == topb_fp + 1? if so rrr to build consecutive
 
-static void	harmony_ops(t_stack **a, t_stack **b, int set_mid, int top_lim)
+static void	harmony_ops(t_lists *all, int set_mid, int top_lim)
 {
 	t_stack	*next_node;
 	t_stack *b_next;
 	int		topb_fp;
 	int		bnext_fp;
 
-	next_node = get_cheapest_2(*a, top_lim);
-	b_next = (*b)->next;
-	topb_fp = (*b)->final_pos;
+	next_node = get_cheapest_2(all->a, top_lim);
+	b_next = (all->b)->next;
+	topb_fp = (all->b)->final_pos;
 	if (b_next)
 	{
 		bnext_fp = b_next->final_pos;
@@ -41,18 +41,18 @@ static void	harmony_ops(t_stack **a, t_stack **b, int set_mid, int top_lim)
 			return ; */
 		if (next_node && next_node->curr_pos == 1
 			&& (topb_fp + 1 == bnext_fp))
-			ss(a, b, 0);
+			ss(all, 0);
 		else if (next_node && (topb_fp < set_mid)
 			&& next_node->curr_pos != 0 && next_node->above_mid
 			&& bnext_fp >= set_mid)
-			rr(a, b, 0);
+			rr(all, 0);
 		else if (topb_fp < set_mid && bnext_fp >= set_mid)
-			rb(b, 0);
+			rb(all, 0);
 	}
 }
 //leave largest cyclic sorted set, presort those going to B
 
-static void	harmony_sort(t_stack **a, t_stack **b, int num_blocks, int num)
+static void	harmony_sort(t_lists *all, int num_blocks, int num)
 {
 	t_stack	*node;
 	int		i;
@@ -64,28 +64,28 @@ static void	harmony_sort(t_stack **a, t_stack **b, int num_blocks, int num)
 		i = -1;
 		while (++i < num - 1)
 		{
-			node = get_cheapest_2(*a, num * j);
+			node = get_cheapest_2(all->a, num * j);
 			if (node == NULL)
 				break ;
-			move_to_top_a(a, node);
-			pb(b, a, 0);
-			harmony_ops(a, b, num * (j - 1) + num / 2, num * j);
+			move_to_top_a(all, node);
+			pb(all, 0);
+			harmony_ops(all, num * (j - 1) + num / 2, num * j);
 		}
 	}
 }
 
-static void	sort_500_ops(t_stack **a, t_stack **b, int top_lim, int set_mid)
+static void	sort_500_ops(t_lists *all, int top_lim, int set_mid)
 {
 	t_stack	*next_node;
 	t_stack *b_next;
 	int		topb_fp;
 	int		bnext_fp;
 
-	move_to_top_a(a, get_cheapest(*a, top_lim));
-	pb(b, a, 0);
-	b_next = (*b)->next;
-	topb_fp = (*b)->final_pos;
-	next_node = get_cheapest(*a, top_lim);
+	move_to_top_a(all, get_cheapest(all->a, top_lim));
+	pb(all, 0);
+	b_next = (all->b)->next;
+	topb_fp = (all->b)->final_pos;
+	next_node = get_cheapest(all->a, top_lim);
 	if (b_next)
 	{
 		bnext_fp = b_next->final_pos;
@@ -99,12 +99,12 @@ static void	sort_500_ops(t_stack **a, t_stack **b, int top_lim, int set_mid)
 		else if (bnext_fp + 1 == topb_fp)//trying consecutives..., if both are bot half, and 2 or more for next_node, do rr rr?
 			return ; */
 		if (next_node && next_node->curr_pos == 1 && (topb_fp + 1 == bnext_fp))
-			ss(a, b, 0);
+			ss(all, 0);
 		else if (next_node && (topb_fp < set_mid) && next_node->curr_pos != 0 
 			&& next_node->above_mid && bnext_fp >= set_mid)
-			rr(a, b, 0);
+			rr(all, 0);
 		else if (topb_fp < set_mid && bnext_fp >= set_mid)
-			rb(b, 0);
+			rb(all, 0);
 	}
 }
 
@@ -113,7 +113,7 @@ static void	sort_500_ops(t_stack **a, t_stack **b, int top_lim, int set_mid)
 // then recurs with the new current size, 1/2, 1/3, ... until 9 remain
 // troubshoot: printf("----num_p: %d\n---num:  %d\n\n", num_prev, num);
 
-static void	sort_500(t_stack **a, t_stack **b, int num_prev, int len)
+static void	sort_500(t_lists *all, int num_prev, int len)
 {
 	int	i;
 	int	num;
@@ -121,7 +121,7 @@ static void	sort_500(t_stack **a, t_stack **b, int num_prev, int len)
 	int	len_start;
 	int lim = 10;//85 for harm
 
-	if (len < lim || *a == NULL)
+	if (len < lim || all->a == NULL)
 		return ;
 	num_blocks = 2;
 	len_start = len;
@@ -131,41 +131,41 @@ static void	sort_500(t_stack **a, t_stack **b, int num_prev, int len)
 		num = len_start / num_blocks;
 		while (++i < num && len >= lim)
 		{
-			sort_500_ops(a, b, num_prev + num, num_prev + num / 2);
+			sort_500_ops(all, num_prev + num, num_prev + num / 2);
 			len--;
 		}
 		num_blocks++;
 		num_prev += num;
 	}
-	sort_500(a, b, num_prev, len);
+	sort_500(all, num_prev, len);
 	return ;
 }
 
-void	push_swap(t_stack **a, t_stack **b, int len)
+void	push_swap(t_lists *all, t_stack *a, int len)
 {
-	if (is_cyclic_sorted(*a))
+	if (is_cyclic_sorted(a))
 	{
-		cycle(a);
+		cycle(all);
 		return ;
 	}
 	else if (len >= 4 && len < 10)
-		sort_small(a, b);
+		sort_small(all, a);
 	else if (len > 9 && len <= 210)
 	{
-		get_biggest_cyclic(*a, 0, 0);
-		//printf("--------------size: %d\n", leave_size(*a));
-		harmony_sort(a, b, 3, 3 * len / 4 + 2);
-		take_it_home(a, b);
+		get_biggest_cyclic(all->a, 0, 0);
+	//	printf("--------------size: %d\n", leave_size(all->a));
+		harmony_sort(all, 3, 3 * len / 4 + 3);
+		take_it_home(all);
 	}
 	else
 	{
 		//t_stack *copy = stack_copy(*a);
-		sort_500(a, b, 0, len);
-		sort_now(a, b);
+		sort_500(all, 0, len);
+		sort_now(all, a);
 		if (len == 500)
-			take_it_home_500(a, b);
+			take_it_home_500(all);
 		else
-			take_it_home(a, b);
+			take_it_home(all);
 	}
 }
 

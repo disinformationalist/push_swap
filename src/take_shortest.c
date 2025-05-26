@@ -125,36 +125,37 @@ t_stack	*get_cheapest_return(t_stack *b)
 
 //take the shortest up/down route: 1,2 ups : 3,4 downs
 
-static void	take1234(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
+static void	take1234(t_lists *all, t_stack *target, t_stack *node)
 {
 	if (node->direction == 1)
 	{
 		if (node->curr_pos <= target->curr_pos)
-			route_1(a, b, target, node);
+			route_1(all, target, node);
 		else
-			route_2(a, b, target, node);
+			route_2(all, target, node);
 	}
 	else
 	{
-		if ((ft_size(*b) - node->curr_pos) >= (ft_size(*a) - target->curr_pos))
-			route_3(a, b, target, node);
+		if ((ft_size(all->b) - node->curr_pos) 
+			>= (ft_size(all->a) - target->curr_pos))
+			route_3(all, target, node);
 		else
-			route_4(a, b, target, node);
+			route_4(all, target, node);
 	}
 }
 
 // up/down, or opposite directions
 
-void	take_route(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
+void	take_route(t_lists *all, t_stack *target, t_stack *node)
 {
 	if (!node->direction)
 	{
 		if (target->above_mid)
-			route_5(a, b, target, node);
+			route_5(all, target, node);
 		else if (node->above_mid)
-			route_6(a, b, target, node);
+			route_6(all, target, node);
 	}
 	else
-		take1234(a, b, target, node);
-	pa(a, b, 0);
+		take1234(all, target, node);
+	pa(all, 0);
 }

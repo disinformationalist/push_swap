@@ -30,32 +30,32 @@ static int	ft_strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
-static void	moves(t_stack **a, t_stack **b, char *move)
+static void	moves(t_lists *all, char *move)
 {
 	if (!ft_strcmp(move, "sa\n"))
-		sa(a, 1);
+		sa(all, 1);
 	else if (!ft_strcmp(move, "sb\n"))
-		sb(b, 1);
+		sb(all, 1);
 	else if (!ft_strcmp(move, "ss\n"))
-		ss(a, b, 1);
+		ss(all, 1);
 	else if (!ft_strcmp(move, "pa\n"))
-		pa(a, b, 1);
+		pa(all 1);
 	else if (!ft_strcmp(move, "pb\n"))
-		pb(b, a, 1);
+		pb(all, 1);
 	else if (!ft_strcmp(move, "ra\n"))
-		ra(a, 1);
+		ra(all 1);
 	else if (!ft_strcmp(move, "rb\n"))
-		rb(b, 1);
+		rb(all, 1);
 	else if (!ft_strcmp(move, "rr\n"))
-		rr(a, b, 1);
+		rr(all, 1);
 	else if (!ft_strcmp(move, "rra\n"))
-		rra(a, 1);
+		rra(all, 1);
 	else if (!ft_strcmp(move, "rrb\n"))
-		rrb(b, 1);
+		rrb(all, 1);
 	else if (!ft_strcmp(move, "rrr\n"))
-		rrr(a, b, 1);
+		rrr(all, 1);
 	else
-		error(a, b);
+		error(all);
 }
 
 static void	print_and_free(t_stack *a, int len)
@@ -72,6 +72,8 @@ int	main(int ac, char **argv)
 	int		len;
 	char	**av;
 	char	*line;
+	t_lists *all;
+	
 	t_stack	*a;
 	t_stack	*b;
 

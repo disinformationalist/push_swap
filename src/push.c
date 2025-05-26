@@ -35,18 +35,17 @@ static void	push(t_stack **to, t_stack **from)
 	}
 }
 
-void	pa(t_stack **a, t_stack **b, int checker)
+void	pa(t_lists *all, int checker)
 {
-	push(a, b);
+	push(&(all->a), &(all->b));
 	if (!checker)
-		write(1, "pa\n", 3);
-	moves++;
+		add_move(all, "pa\n");
 }
 
-void	pb(t_stack **b, t_stack **a, int checker)
+void	pb(t_lists *all, int checker)
 {
-	push(b, a);
+	push(&(all->b), &(all->a));
 	if (!checker)
-		write(1, "pb\n", 3);
-	moves++;
+		add_move(all, "pb\n");
 }
+

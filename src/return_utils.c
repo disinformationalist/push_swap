@@ -12,30 +12,30 @@
 
 #include "push_swap.h"
 
-void	cycle(t_stack **a)
+void	cycle(t_lists *all)
 {
 	t_stack	*curr_a;
 	t_stack	*node;
 	int		rot;
 
-	curr_a = *a;
+	curr_a = all->a;
 	while (curr_a)
 	{
 		if (curr_a->final_pos == 0)
 			node = curr_a;
 		curr_a = curr_a->next;
 	}
-	set_curr_pos_cost(*a);
+	set_curr_pos_cost(all->a);
 	rot = node->cost + 1;
 	if (node->above_mid)
 		while (--rot)
-			ra(a, 0);
+			ra(all, 0);
 	else
 		while (--rot)
-			rra(a, 0);
+			rra(all, 0);
 }
 
-static void	reverse_loops(t_stack **a, t_stack **b, int end, int start)
+static void	reverse_loops(t_lists *all, int end, int start)
 {
 	t_stack	*node_to_return;
 	int		i;
@@ -49,18 +49,18 @@ static void	reverse_loops(t_stack **a, t_stack **b, int end, int start)
 		i = -1;
 		while (++i < size)
 		{
-			set_curr_pos_cost(*a);
-			set_curr_pos_cost(*b);
-			set_return_cost(*a, *b);
-			node_to_return = get_cheapest_return_interval(*b, start, end);
-			take_route(a, b, node_to_return->target, node_to_return);
+			set_curr_pos_cost(all->a);
+			set_curr_pos_cost(all->b);
+			set_return_cost(all->a, all->b);
+			node_to_return = get_cheapest_return_interval(all->b, start, end);
+			take_route(all, node_to_return->target, node_to_return);
 		}
 		start -= size;
 		end -= size;
 	}
 }
 
-void	take_it_home_500(t_stack **a, t_stack **b)
+void	take_it_home_500(t_lists *all)
 {
 	t_stack	*node_to_return;
 	int		i;
@@ -68,43 +68,42 @@ void	take_it_home_500(t_stack **a, t_stack **b)
 	//	while (++i < 5)
 	//int len = 84 - ft_size(*a);
 	i = -1;
-	len = 14 - ft_size(*a);
+	len = 14 - ft_size(all->a);
 	while (++i < len)
 	{
-		set_curr_pos_cost(*a);
-		set_curr_pos_cost(*b);
-		set_return_cost(*a, *b);
-				node_to_return = get_cheapest_return_interval(*b, 486, 499);
+		set_curr_pos_cost(all->a);
+		set_curr_pos_cost(all->b);
+		set_return_cost(all->a, all->b);
+				node_to_return = get_cheapest_return_interval(all->b, 486, 499);
 		//node_to_return = get_cheapest_return_interval(*b, 416, 499);//harm
-		take_route(a, b, node_to_return->target, node_to_return);
+		take_route(all, node_to_return->target, node_to_return);
 	}
 
-	reverse_loops(a, b, 485, 472);
-	reverse_loops(a, b, 457, 437);
-	reverse_loops(a, b, 415, 333);//just these two with harm, take_it_home for the rest
-	reverse_loops(a, b, 249, 125);
-	cycle(a);
+	reverse_loops(all, 485, 472);
+	reverse_loops(all, 457, 437);
+	reverse_loops(all, 415, 333);//just these two with harm, take_it_home for the rest
+	reverse_loops(all, 249, 125);
+	cycle(all);
 }
 
 //returns all remaining in B to correct place in A, rotates lowest to top
 
-void	take_it_home(t_stack **a, t_stack **b)
+void	take_it_home(t_lists *all)
 {
 	t_stack	*node_to_return;
-	
-	while (*b)
+	while (all->b)
 	{
-		set_curr_pos_cost(*a);
-		set_curr_pos_cost(*b);
-		set_return_cost(*a, *b);
-		node_to_return = get_cheapest_return(*b);
-		take_route(a, b, node_to_return->target, node_to_return);
+		set_curr_pos_cost(all->a);
+		set_curr_pos_cost(all->b);
+		set_return_cost(all->a, all->b);
+		node_to_return = get_cheapest_return(all->b);
+		take_route(all, node_to_return->target, node_to_return);
 	}
-	cycle(a);
+	cycle(all);
 }
 
 //trying check on last 2 or 3 send, try with 3 and go from highest to lowest, maybe with entire last set for 500, or send back smallest last?
-void	take_it_home_100(t_stack **a, t_stack **b)
+void	take_it_home_100(t_lists *all)
 {
 /* 	t_stack	*node_to_return;
 	int		i;
@@ -136,7 +135,7 @@ void	take_it_home_100(t_stack **a, t_stack **b)
 	
 	//reverse_loops(a, b, ft_size(*b) - 1, (ft_size(*b) + 10) / 2);//this might be good
 	//reverse_loops(a, b, ft_size(*b), ft_size(*b) / 2);
-	take_it_home(a, b);
+	take_it_home(all);
 }
 
 
@@ -144,7 +143,6 @@ void	take_it_home_100(t_stack **a, t_stack **b)
 //starting numbers not just 500
 //it seems to not give predictable improvement as with 500
 //NOTE: Instead create interval data struct with values saved to do this,
-// add pointer to all nodes, and just stick in any. needs array of vec2,
 //length must be precomputed from stack size.  
 
 /* typedef struct s_rec

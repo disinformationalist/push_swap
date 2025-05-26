@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	route_1(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
+void	route_1(t_lists *all, t_stack *target, t_stack *node)
 {
 	int	rr_rots;
 	int	a_rots;
@@ -21,17 +21,17 @@ void	route_1(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 	a_rots = target->curr_pos - rr_rots;
 	while (rr_rots)
 	{
-		rr(a, b, 0);
+		rr(all, 0);
 		rr_rots--;
 	}
 	while (a_rots)
 	{
-		ra(a, 0);
+		ra(all, 0);
 		a_rots--;
 	}
 }
 
-void	route_2(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
+void	route_2(t_lists *all, t_stack *target, t_stack *node)
 {
 	int	rr_rots;
 	int	b_rots;
@@ -40,55 +40,55 @@ void	route_2(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 	b_rots = node->curr_pos - rr_rots;
 	while (rr_rots)
 	{
-		rr(a, b, 0);
+		rr(all, 0);
 		rr_rots--;
 	}
 	while (b_rots)
 	{
-		rb(b, 0);
+		rb(all, 0);
 		b_rots--;
 	}
 }
 
-void	route_3(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
+void	route_3(t_lists *all, t_stack *target, t_stack *node)
 {
 	int	rrr_rots;
 	int	b_rots;
 
-	rrr_rots = ft_size(*a) - target->curr_pos;
-	b_rots = (ft_size(*b) - node->curr_pos) - rrr_rots;
+	rrr_rots = ft_size(all->a) - target->curr_pos;
+	b_rots = (ft_size(all->b) - node->curr_pos) - rrr_rots;
 	while (rrr_rots)
 	{
-		rrr(a, b, 0);
+		rrr(all, 0);
 		rrr_rots--;
 	}
 	while (b_rots)
 	{
-		rrb(b, 0);
+		rrb(all, 0);
 		b_rots--;
 	}
 }
 
-void	route_4(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
+void	route_4(t_lists *all, t_stack *target, t_stack *node)
 {
 	int	rrr_rots;
 	int	a_rots;
 
-	rrr_rots = ft_size(*b) - node->curr_pos;
-	a_rots = (ft_size(*a) - target->curr_pos) - rrr_rots;
+	rrr_rots = ft_size(all->b) - node->curr_pos;
+	a_rots = (ft_size(all->a) - target->curr_pos) - rrr_rots;
 	while (rrr_rots)
 	{
-		rrr(a, b, 0);
+		rrr(all, 0);
 		rrr_rots--;
 	}
 	while (a_rots)
 	{
-		rra(a, 0);
+		rra(all, 0);
 		a_rots--;
 	}
 }
 
-void	route_5(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
+void	route_5(t_lists *all, t_stack *target, t_stack *node)
 {
 	int	a_rots;
 	int	b_rots;
@@ -97,12 +97,12 @@ void	route_5(t_stack **a, t_stack **b, t_stack *target, t_stack *node)
 	b_rots = node->cost;
 	while (a_rots)
 	{
-		ra(a, 0);
+		ra(all, 0);
 		a_rots--;
 	}
 	while (b_rots)
 	{
-		rrb(b, 0);
+		rrb(all, 0);
 		b_rots--;
 	}
 }

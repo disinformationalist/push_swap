@@ -26,7 +26,29 @@ static void	reverse_rotate(t_stack **stack)
 	last->next->prev = last;
 }
 
-void	rra(t_stack **a, int checker)
+void	rra(t_lists *all, int checker)
+{
+	reverse_rotate(&(all->a));
+	if (!checker)
+		add_move(all, "rra\n");
+}
+
+void	rrb(t_lists *all, int checker)
+{
+	reverse_rotate(&(all->b));
+	if (!checker)
+		add_move(all, "rrb\n");
+}
+
+void	rrr(t_lists *all, int checker)
+{
+	reverse_rotate(&(all->a));
+	reverse_rotate(&(all->b));
+	if (!checker)
+		add_move(all, "rrr\n");
+}
+
+/* void	rra(t_stack **a, int checker)
 {
 	reverse_rotate(a);
 	if (!checker)
@@ -50,3 +72,4 @@ void	rrr(t_stack **a, t_stack **b, int checker)
 		write(1, "rrr\n", 4);
 	moves++;
 }
+ */

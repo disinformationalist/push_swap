@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"functional": "c",
+		"bitset": "c",
+		"ranges": "c",
+		"random": "c"
+	}
+}

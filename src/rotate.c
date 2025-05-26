@@ -26,7 +26,29 @@ static void	rotate(t_stack **stack)
 	last->next->next = NULL;
 }
 
-void	ra(t_stack **a, int checker)
+void	ra(t_lists *all, int checker)
+{
+	rotate(&(all->a));
+	if (!checker)
+		add_move(all, "ra\n");
+}
+
+void	rb(t_lists *all, int checker)
+{
+	rotate(&(all->b));
+	if (!checker)
+		add_move(all, "rb\n");
+}
+
+void	rr(t_lists *all, int checker)
+{
+	rotate(&(all->a));
+	rotate(&(all->b));
+	if (!checker)
+		add_move(all, "rr\n");
+}
+
+/* void	ra(t_stack **a, int checker)
 {
 	rotate(a);
 	if (!checker)
@@ -49,4 +71,4 @@ void	rr(t_stack **a, t_stack **b, int checker)
 	if (!checker)
 		write(1, "rr\n", 3);
 	moves++;
-}
+} */
