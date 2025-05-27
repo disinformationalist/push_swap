@@ -39,7 +39,10 @@ SRCS := ./src/free.c \
 ./src/hard_codes.c \
 ./src/take_shortest.c \
 ./src/utils_2.c \
-./src/utils.c 
+./src/utils_3.c \
+./src/utils.c \
+./src/lists_utils.c
+
   
 CFLAGS := -Wall -Wextra -Werror -I$(INC_DIR)
 

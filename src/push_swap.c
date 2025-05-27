@@ -66,7 +66,7 @@ void	check_and_build_stack(t_stack **a, char **av, int *tab, int i)
 	add_node(a, av, tab, n);
 }
 
-void	init(t_stack **a, char **av, int len)
+void	init(t_stack **a, char **av, int len)//needs to free all struct on failures
 {
 	int	i;
 	int	*tab;

@@ -22,9 +22,6 @@
 # include <stdbool.h>
 # include "../libft/libft.h"
 
-//counter for total moves to sort
-extern int moves;
-
 //buffer to save moves
 
 typedef struct s_buffer
@@ -87,10 +84,15 @@ t_stack	*ft_last(t_stack *lst);
 t_stack	*stack_copy(t_stack *to_copy);
 void	print_stack(t_stack *stack);
 
-void	write_ops(const char *s, int len, int cost);
 bool	swap_test(t_lists *all, int loop);
 void	add_move(t_lists *all, char *move);
 void	print_moves(t_buffer *buff);
+void	free_buff(t_buffer *buff);
+void	init_all(t_lists *all);
+void	free_all_list(t_lists *all);
+
+
+
 
 
 

@@ -25,7 +25,6 @@ void print_case(t_lists *all, int loop, bool condition)
 		add_move(all, "ss\n");
 	else
 		add_move(all, "sa\n");
-	moves++;
 }
 
 //try sa to see if it makes sorted or cyclic sorted, using small recursive tree

@@ -141,6 +141,133 @@ static void	sort_500(t_lists *all, int num_prev, int len)
 	return ;
 }
 
+static void	sort_500_2(t_lists *all, int num_prev, int len, int block)
+{
+	int	i;
+	int	num;
+	int	len_start;
+	int lim = 10;//85 for harm
+
+	if (len < lim || all->a == NULL)
+		return ;
+	len_start = len;
+		i = -1;
+		num = len_start / block;
+		while (++i < num && len >= lim)
+		{
+			sort_500_ops(all, num_prev + num, num_prev + num / 2);
+			len--;
+		}
+		num_prev += num;
+	sort_500_2(all, num_prev, len, block);
+	return ;
+}
+
+void	protect_lists(t_lists *all, t_lists *all2, t_lists *all3)
+{
+	free_all_list(all);
+	if (all2)
+		free_all_list(all2);
+	if (all3)
+		free_all_list(all3);
+	ft_putstr_fd("lists malloc failure\n", 2);
+	exit(EXIT_FAILURE);
+}
+
+//init 2nd and 3rd list 
+
+void	init_lists(t_lists *all, t_lists **all2, t_lists **all3)
+{
+	(*all2) = (t_lists *)malloc(sizeof(t_lists));
+	if (!(*all2))
+		protect_lists(all, *all2, *all3);
+	init_all(*all2);
+	(*all2)->a = stack_copy(all->a);
+	if (!(*all2)->a)
+		protect_lists(all, *all2, *all3);
+	(*all3) = (t_lists *)malloc(sizeof(t_lists));
+	if (!(*all3))
+		protect_lists(all, *all2, *all3);
+	init_all(*all3);
+	(*all3)->a = stack_copy(all->a);
+	if (!(*all3)->a)
+		protect_lists(all, *all2, *all3);
+}
+
+void	print_results(t_lists *all, t_lists *all2, t_lists *all3)
+{
+	if (all->count < all2->count)
+	{
+		if (all->count < all3->count)
+			print_moves(all->buff);
+		else
+			print_moves(all3->buff);
+	}
+	else
+	{
+		if (all2->count < all3->count)
+			print_moves(all2->buff);
+		else
+			print_moves(all3->buff);
+	}
+	printf("count1: %d   count2: %d   count3: %d\n", all->count, all2->count, all3->count);
+}
+
+void	paths_500(t_lists *all, int len)
+{
+	sort_now(all, all->a);
+	if (len == 500)
+		take_it_home_500(all);
+	else
+		take_it_home(all);
+}
+
+
+void	try_paths(t_lists *all, int len)
+{
+	t_lists	*all2;
+	t_lists	*all3;
+	
+	all2 = NULL;
+	all3 = NULL;
+	init_lists(all, &all2, &all3);
+	if (len <= 210)
+	{
+		harmony_sort(all, 4, 3 * len / 4 + 2);
+		harmony_sort(all2, 4, 71);
+		harmony_sort(all3, 10, 76);//71, 88, 92
+		take_it_home(all);
+		take_it_home(all2);
+		take_it_home(all3);
+	}
+	else
+	{
+		sort_500(all, 0, len);
+		sort_500_2(all2, 0, len, 3);
+		sort_500_2(all3, 0, len, 2);
+		sort_now(all2, all2->a);
+		sort_now(all3, all3->a);
+
+		/* harmony_sort(all2, 5, 130);
+		harmony_sort(all3, 8, 300); */
+		/* take_it_home(all);
+		take_it_home(all2);
+		take_it_home(all3); */
+//		sort_500(all2, 0, len);
+//		sort_500(all3, 0, len);
+		paths_500(all, len);
+		take_it_home(all2);
+		take_it_home(all3); 
+		/* paths_500(all2, len);
+		paths_500(all3, len); */
+	}
+	print_results(all, all2, all3);
+	free_all_list(all2);
+	free_all_list(all3);
+}
+
+
+
 void	push_swap(t_lists *all, t_stack *a, int len)
 {
 	if (is_cyclic_sorted(a))
@@ -149,24 +276,19 @@ void	push_swap(t_lists *all, t_stack *a, int len)
 		return ;
 	}
 	else if (len >= 4 && len < 10)
+	{
 		sort_small(all, a);
+		print_moves(all->buff);
+	}
 	else if (len > 9 && len <= 210)
 	{
 		get_biggest_cyclic(all->a, 0, 0);
 	//	printf("--------------size: %d\n", leave_size(all->a));
-		harmony_sort(all, 3, 3 * len / 4 + 3);
-		take_it_home(all);
+		try_paths(all, len);
 	}
 	else
 	{
-		//t_stack *copy = stack_copy(*a);
-		sort_500(all, 0, len);
-		sort_now(all, a);
-		if (len == 500)
-			take_it_home_500(all);
-		else
-			take_it_home(all);
+		try_paths(all, len);
+		
 	}
 }
-
-
