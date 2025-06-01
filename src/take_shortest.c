@@ -42,60 +42,6 @@ t_stack	*get_cheapest_return_interval(t_stack *b, int start, int end)
 	return (to_return);
 }
 
-
-/* t_stack	*get_2nd_cheapest_return(t_stack *b, t_stack *cheapest)
-{
-	t_stack	*to_return;
-	t_stack	*b_curr;
-	int		least_cost;
-
-	b_curr = b;
-	to_return = NULL;
-	least_cost = INTMAX;
-	while (b_curr)
-	{
-		if (((b_curr->return_cost < least_cost) 
-			|| (b_curr->return_cost == least_cost 
-			&& b_curr->final_pos > to_return->final_pos)) && b_curr != cheapest)
-		{
-			to_return = b_curr;
-			least_cost = b_curr->return_cost;
-		}
-		b_curr = b_curr->next;
-	}
-	return (to_return);
-}
-
-t_stack	*get_cheapest_return(t_stack *b)
-{
-	t_stack	*cheapest;
-	t_stack	*b_curr;
-	int		least_cost;
-	t_stack	*cheap2;
-
-	set_curr_pos_cost(b);
-	b_curr = b;
-	cheapest = NULL;
-	least_cost = INTMAX;
-	while (b_curr)
-	{
-		if ((b_curr->return_cost < least_cost) 
-			|| (b_curr->return_cost == least_cost 
-			&& b_curr->final_pos > cheapest->final_pos))
-		{
-			cheapest = b_curr;
-			least_cost = b_curr->return_cost;
-		}
-		b_curr = b_curr->next;
-	}
-	cheap2 = get_2nd_cheapest_return(b, cheapest);
-	if (cheap2 && !cheapest->above_mid && cheap2->cost < cheapest->cost + 2)
-		return (cheap2);
-	else
-		return (cheapest);
-}
- */
-
 // delivers the node with the cheapest return to stack A
 // Ties are broken by choosing the largest final pos node
 

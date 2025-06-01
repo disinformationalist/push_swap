@@ -52,36 +52,6 @@ void	set_curr_pos_cost(t_stack *stack)
 	}
 }
 
-/* void	move_to_top_a(t_stack **a, t_stack **b, t_stack *node)
-{
-	int	i;
-	int	pos;
-	int	size;
-	int	center;
-
-	if (!node)
-		return ;
-	i = -1;
-	pos = get_curr_pos(*a, node);
-	size = ft_size(*a);
-	center = size / 2;
-	if (pos <= center)
-	{
-		while (++i < pos)
-			ra(a, 0);
-	}
-	else if (pos > center)
-	{
-		if ((*b) && (*b)->next && ft_last(*b)->final_pos == (*b)->final_pos + 1)
-		{
-			rrr(a, b, 0);
-			pos--;
-		}
-		while (++i < size - pos)
-			rra(a, 0);
-	}
-} */
-
 void	move_to_top_a(t_stack **a, t_stack *node)
 {
 	int	i;
@@ -107,28 +77,6 @@ void	move_to_top_a(t_stack **a, t_stack *node)
 	}
 }
 
-t_stack *get_2nd_cheapest(t_stack *stack, int num, t_stack *cheapest)
-{
-	t_stack	*cheapest2;
-	int		n;
-	int		cost;
-
-	n = INTMAX;
-	cheapest2 = NULL;
-	while (stack)
-	{
-		cost = stack->cost;
-		if (cost < n && stack->final_pos < num && stack != cheapest 
-			&& (stack->above_mid || cost == 1))
-		{
-			n = cost;
-			cheapest2 = stack;
-		}
-		stack = stack->next;
-	}
-	return (cheapest2);
-}
-
 t_stack	*get_cheapest(t_stack *stack, int num)
 {
 	int		n;
@@ -152,4 +100,20 @@ t_stack	*get_cheapest(t_stack *stack, int num)
 		stack = stack->next;
 	}
 	return (cheapest);
+}
+
+//counts how many are marked to be left in A
+
+int	leave_size(t_stack *stack)
+{
+	int	count;
+
+	count = 0;
+	while (stack)
+	{
+		if (stack->leave)
+			count++;
+		stack = stack->next;
+	}
+	return (count);
 }

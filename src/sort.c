@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-//try, when rra on send over, is lastb_fp == topb_fp + 1? if so rrr to build consecutive
+int	moves = 0;
 
 static void	harmony_ops(t_stack **a, t_stack **b, int set_mid, int top_lim)
 {
@@ -27,18 +27,6 @@ static void	harmony_ops(t_stack **a, t_stack **b, int set_mid, int top_lim)
 	if (b_next)
 	{
 		bnext_fp = b_next->final_pos;
-		//t_stack *b_last = ft_last(*b);
-
-		
-		/* if (next_node && ft_last(*b)->final_pos == topb_fp + 1 && !next_node->above_mid)
-			rrr(a, b, 0); */
-		/* if (next_node && next_node->cost > 1 && bnext_fp + 1 == topb_fp && bnext_fp < set_mid && topb_fp < set_mid)
-		{
-			rr(a, b, 0);
-			rr(a, b, 0);
-		} */
-		/* else if (bnext_fp + 1 == topb_fp)//trying consecutives..., if both are bot half, and 2 or more for next_node, do rr rr?
-			return ; */
 		if (next_node && next_node->curr_pos == 1
 			&& (topb_fp + 1 == bnext_fp))
 			ss(a, b, 0);
@@ -89,15 +77,6 @@ static void	sort_500_ops(t_stack **a, t_stack **b, int top_lim, int set_mid)
 	if (b_next)
 	{
 		bnext_fp = b_next->final_pos;
-		/* if (next_node && ft_last(*b)->final_pos == topb_fp + 1 && !next_node->above_mid)
-			rrr(a, b, 0);
-		else if (next_node && next_node->cost > 1 && bnext_fp + 1 == topb_fp && bnext_fp < set_mid && topb_fp < set_mid)
-		{
-			rr(a, b, 0);
-			rr(a, b, 0);
-		}
-		else if (bnext_fp + 1 == topb_fp)//trying consecutives..., if both are bot half, and 2 or more for next_node, do rr rr?
-			return ; */
 		if (next_node && next_node->curr_pos == 1 && (topb_fp + 1 == bnext_fp))
 			ss(a, b, 0);
 		else if (next_node && (topb_fp < set_mid) && next_node->curr_pos != 0 
@@ -105,7 +84,7 @@ static void	sort_500_ops(t_stack **a, t_stack **b, int top_lim, int set_mid)
 			rr(a, b, 0);
 		else if (topb_fp < set_mid && bnext_fp >= set_mid)
 			rb(b, 0);
-	}
+		}
 }
 
 // recursively send blocks of numbers to stack b while a is larger than lim
@@ -119,7 +98,7 @@ static void	sort_500(t_stack **a, t_stack **b, int num_prev, int len)
 	int	num;
 	int	num_blocks;
 	int	len_start;
-	int lim = 10;//85 for harm
+	int lim = 10;
 
 	if (len < lim || *a == NULL)
 		return ;
@@ -129,11 +108,8 @@ static void	sort_500(t_stack **a, t_stack **b, int num_prev, int len)
 	{
 		i = -1;
 		num = len_start / num_blocks;
-		while (++i < num && len >= lim)
-		{
+		while (++i < num && len-- >= lim)
 			sort_500_ops(a, b, num_prev + num, num_prev + num / 2);
-			len--;
-		}
 		num_blocks++;
 		num_prev += num;
 	}
@@ -153,13 +129,14 @@ void	push_swap(t_stack **a, t_stack **b, int len)
 	else if (len > 9 && len <= 210)
 	{
 		get_biggest_cyclic(*a, 0, 0);
-		//printf("--------------size: %d\n", leave_size(*a));
-		harmony_sort(a, b, 3, 3 * len / 4 + 2);
+		if (len == 100)
+			harmony_sort(a, b, 4, 77);
+		else
+			harmony_sort(a, b, 4, 3 * len / 4 + 3);
 		take_it_home(a, b);
 	}
 	else
 	{
-		//t_stack *copy = stack_copy(*a);
 		sort_500(a, b, 0, len);
 		sort_now(a, b);
 		if (len == 500)

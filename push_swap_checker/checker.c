@@ -30,7 +30,7 @@ static int	ft_strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
-static void	moves(t_stack **a, t_stack **b, char *move)
+static void	move(t_stack **a, t_stack **b, char *move)
 {
 	if (!ft_strcmp(move, "sa\n"))
 		sa(a, 1);
@@ -67,6 +67,9 @@ static void	print_and_free(t_stack *a, int len)
 	free_stack(&a);
 }
 
+//build stack, run moves without printing, 
+//check for sorted and matching start size, print result
+
 int	main(int ac, char **argv)
 {
 	int		len;
@@ -86,7 +89,7 @@ int	main(int ac, char **argv)
 	line = get_next_line(STDIN_FILENO);
 	while (line)
 	{
-		moves(&a, &b, line);
+		move(&a, &b, line);
 		line = get_next_line(STDIN_FILENO);
 	}
 	print_and_free(a, len);

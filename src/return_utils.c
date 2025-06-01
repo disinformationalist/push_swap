@@ -65,8 +65,7 @@ void	take_it_home_500(t_stack **a, t_stack **b)
 	t_stack	*node_to_return;
 	int		i;
 	int		len;
-	//	while (++i < 5)
-	//int len = 84 - ft_size(*a);
+
 	i = -1;
 	len = 14 - ft_size(*a);
 	while (++i < len)
@@ -75,13 +74,12 @@ void	take_it_home_500(t_stack **a, t_stack **b)
 		set_curr_pos_cost(*b);
 		set_return_cost(*a, *b);
 				node_to_return = get_cheapest_return_interval(*b, 486, 499);
-		//node_to_return = get_cheapest_return_interval(*b, 416, 499);//harm
 		take_route(a, b, node_to_return->target, node_to_return);
 	}
 
 	reverse_loops(a, b, 485, 472);
 	reverse_loops(a, b, 457, 437);
-	reverse_loops(a, b, 415, 333);//just these two with harm, take_it_home for the rest
+	reverse_loops(a, b, 415, 333);
 	reverse_loops(a, b, 249, 125);
 	cycle(a);
 }
@@ -103,43 +101,6 @@ void	take_it_home(t_stack **a, t_stack **b)
 	cycle(a);
 }
 
-//trying check on last 2 or 3 send, try with 3 and go from highest to lowest, maybe with entire last set for 500, or send back smallest last?
-void	take_it_home_100(t_stack **a, t_stack **b)
-{
-/* 	t_stack	*node_to_return;
-	int		i;
-
-	i = -1;
-	int len = ft_size(*b) - 2;
-	while (++i < len)
-	{
-		set_curr_pos_cost(*a);
-		set_curr_pos_cost(*b);
-		set_return_cost(*a, *b);
-		node_to_return = get_cheapest_return(*b);
-		take_route(a, b, node_to_return->target, node_to_return);
-	}
-	set_curr_pos_cost(*a);
-	set_curr_pos_cost(*b);
-	set_return_cost(*a, *b);
-	if ((*b)->final_pos < (*b)->next->final_pos)
-		node_to_return = *b;
-	else
-		node_to_return = (*b)->next;
-	take_route(a, b, node_to_return->target, node_to_return);
-	set_curr_pos_cost(*a);
-	set_curr_pos_cost(*b);
-	set_return_cost(*a, *b);
-	node_to_return = *b;
-	take_route(a, b, node_to_return->target, node_to_return);
-	cycle(a); */
-	
-	//reverse_loops(a, b, ft_size(*b) - 1, (ft_size(*b) + 10) / 2);//this might be good
-	//reverse_loops(a, b, ft_size(*b), ft_size(*b) / 2);
-	take_it_home(a, b);
-}
-
-
 //below is a method of reversing the recursion for all
 //starting numbers not just 500
 //it seems to not give predictable improvement as with 500
@@ -150,7 +111,8 @@ void	take_it_home_100(t_stack **a, t_stack **b)
 /* typedef struct s_rec
 {
 	int	num;
-	int	div;
+	int	div;//2 or 3, should need this, calls odd or even
+	int calls;
 	int num_p;
 	int size;
 } t_rec;
@@ -173,6 +135,7 @@ static t_rec	set_info(t_stack **a, t_stack **b)
 	init_size = size;
 	info.size = size;
 	info.num_p = 0;
+	info.calls = 0;
 	while (size >= 10 && init_size != 0)
 	{
 		num_blocks = 2;
@@ -185,6 +148,7 @@ static t_rec	set_info(t_stack **a, t_stack **b)
 			num_blocks++;
 			info.num_p += info.num;
 		}
+		info.calls++;
 		init_size = size;
 	}
 	info.div = num_blocks - 1;

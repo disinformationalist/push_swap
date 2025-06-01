@@ -30,16 +30,20 @@ void	ra(t_stack **a, int checker)
 {
 	rotate(a);
 	if (!checker)
+	{
 		write(1, "ra\n", 3);
-	moves++;
+		moves++;
+	}
 }
 
 void	rb(t_stack **b, int checker)
 {
 	rotate(b);
 	if (!checker)
+	{
 		write(1, "rb\n", 3);
-	moves++;
+		moves++;
+	}
 }
 
 void	rr(t_stack **a, t_stack **b, int checker)
@@ -47,6 +51,8 @@ void	rr(t_stack **a, t_stack **b, int checker)
 	rotate(a);
 	rotate(b);
 	if (!checker)
+	{
 		write(1, "rr\n", 3);
-	moves++;
+		moves++;
+	}
 }

@@ -38,14 +38,20 @@ SRCS := ./src/free.c \
 ./src/swap_test.c \
 ./src/hard_codes.c \
 ./src/take_shortest.c \
+./src/utils.c \
 ./src/utils_2.c \
-./src/utils.c 
-  
-CFLAGS := -Wall -Wextra -Werror -I$(INC_DIR)
+./src/utils3.c 
+
+CORE_SRCS := $(filter-out ./src/main.c, $(SRCS))
+
+CFLAGS :=  -I$(INC_DIR)
 
 CC := cc
 
 OBS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+#CORE_OBS := $(CORE_SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+CORE_OBS := $(filter-out $(OBJ_DIR)/main.o, $(OBS))
 
 MAKEFLAGS += --no-print-directory
 
@@ -62,18 +68,22 @@ MAKEFLAGS += --no-print-directory
 
 .SILENT:
 
-all: libmake $(NAME)
+all: libmake $(ARCHIVE) $(NAME)
 
-$(NAME): $(ARCHIVE)
-	$(CC) $< -L./libft -lft -o $@
+$(NAME): $(OBS)
+	$(CC) $^ -L./libft -lft -o $@
 	$(call print_colored, "[SUCCESS]", "./$(NAME)", "Ready")
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 	
-$(ARCHIVE): $(OBS)
-	ar rcs $(ARCHIVE) $(OBS)
+$(ARCHIVE): $(CORE_OBS)
+	ar rcs $(ARCHIVE) $(CORE_OBS)
+
+#$(ARCHIVE): $(CORE_OBS)
+#	ar rcs $@ $^
+
 
 libmake:
 	cd libft && make

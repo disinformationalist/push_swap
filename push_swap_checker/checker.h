@@ -13,7 +13,7 @@
 #ifndef CHECKER_H
 # define CHECKER_H
 
-# include "../push_swap.h"
+# include "../inc/push_swap.h"
 # include <stddef.h>
 # include <fcntl.h>
 

@@ -64,42 +64,20 @@ void	ft_assign(t_stack *a, int *tab, int len)
 	free(tab);
 }
 
-int	leave_size(t_stack *stack)
+//how many are above mid
+
+int	above_count(t_stack *stack, int num)
 {
-	int	count;
+	int count;
 
 	count = 0;
 	while (stack)
 	{
-		if (stack->leave)
+		if (stack->above_mid && stack->final_pos < num && !stack->leave)
 			count++;
 		stack = stack->next;
 	}
 	return (count);
-}
-
-//gets 2nd cheapest to send to B ignoring flagged nodes
-
-t_stack *get_2nd_cheapest_2(t_stack *stack, int num, t_stack *cheapest)
-{
-	t_stack	*cheapest2;
-	int		n;
-	int		cost;
-
-	n = INTMAX;
-	cheapest2 = NULL;
-	while (stack)
-	{
-		cost = stack->cost;
-		if (cost < n && stack->final_pos < num 
-			&& stack != cheapest && !stack->leave)
-		{
-			n = cost;
-			cheapest2 = stack;
-		}
-		stack = stack->next;
-	}
-	return (cheapest2);
 }
 
 //gets cheapest to send to B ignoring flagged nodes
@@ -107,19 +85,21 @@ t_stack *get_2nd_cheapest_2(t_stack *stack, int num, t_stack *cheapest)
 t_stack	*get_cheapest_2(t_stack *stack, int num)
 {
 	int		n;
-	t_stack	*cheapest;
 	int		cost;
+	int		above_mid_count;
+	t_stack	*cheapest;
 
 	if (stack == NULL)
 		return (NULL);
 	set_curr_pos_cost(stack);
+	above_mid_count = above_count(stack, num);
 	n = INTMAX;
 	cheapest = NULL;
 	while (stack)
 	{
 		cost = stack->cost;
-		if (cost < n && stack->final_pos < num && !stack->leave 
-			&& (stack->above_mid || cost == 1))
+		if (cost < n && stack->final_pos < num && !stack->leave
+			&& (stack->above_mid || cost == 1 || !above_mid_count))
 		{
 			n = cost;
 			cheapest = stack;

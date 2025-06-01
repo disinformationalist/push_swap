@@ -109,8 +109,8 @@ void	sort_now(t_stack **a, t_stack **b)
 	{
 		if (is_sorted(*a) || is_cyclic_sorted(*a))
 			return ;
-		if (swap_test(a, b, 0))
-			return;
+		/* if (swap_test(a, b, 0))
+			return; */
 		move_to_top_a(a, lowest(*a));
 		pb(b, a, 0);
 		count++;

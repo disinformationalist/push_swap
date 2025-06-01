@@ -26,6 +26,15 @@ OBS := $(SRCS:.c=.o)
 
 MAKEFLAGS += --no-print-directory
 
+COLOR_RESET = \033[0m
+COLOR_GREEN = \033[1;92m
+COLOR_BLUE = \033[1;96m 
+
+
+define print_colored
+	@echo "$(COLOR_GREEN)$(1)$(COLOR_BLUE)$(2)$(COLOR_RESET)$(3)"
+endef
+
 .SILENT:
 
 all: $(NAME)
@@ -33,6 +42,7 @@ all: $(NAME)
 $(NAME) : $(OBS) $(PUSH_SWAP_A) $(LIBFT_A)
 	$(CC) $^ -o $(NAME)
 	cp $(NAME) ../
+	$(call print_colored, "[SUCCESS]", "./$(NAME)", "Ready")
 
 $(PUSH_SWAP_A) :
 	cd .. && make

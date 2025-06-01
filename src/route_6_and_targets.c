@@ -126,7 +126,7 @@ int	get_least_cost(t_stack *target, t_stack *node, t_stack *a, t_stack *b)
 	opposite = target->cost + node->cost;
 	set_up_down(a, b, target, node);
 	up_down = node->return_cost;
-	if (opposite < up_down - 1)
+	if (opposite + 1 < up_down)
 	{
 		node->direction = 0;
 		return (opposite);

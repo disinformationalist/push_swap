@@ -25,15 +25,6 @@
 //counter for total moves to sort
 extern int moves;
 
-//buffer to save moves
-
-typedef struct s_buffer
-{
-	char 			move[4];
-	int 			count;
-	struct s_buffer *next;
-} t_buffer;
-
 typedef struct s_stack
 {
 	int				content;
@@ -45,26 +36,16 @@ typedef struct s_stack
 	bool			leave;
 	int				direction;
 	struct s_stack	*target;
-	struct s_stack	*swap_target;
-	bool			use_swap;
 	struct s_stack	*prev;
 	struct s_stack	*next;
 }	t_stack;
-
-
-typedef struct s_lists
-{
-	t_stack 	**a;
-	t_stack 	**b;
-	t_buffer	*buff;
-} t_lists;
 
 typedef struct s_params
 {
 	t_stack	*curr;
 	t_stack	*nxt_st;
 	int		i;
-	int		min_diff;
+	int		min_diff; 
 }	t_params;
 
 /*** UTILITY FUNCTIONS ***/
@@ -85,10 +66,10 @@ t_stack	*lowest(t_stack *stack);
 t_stack	*highest(t_stack *stack);
 t_stack	*ft_last(t_stack *lst);
 t_stack	*stack_copy(t_stack *to_copy);
+void	add_copy_node(t_stack **copy, t_stack *new);
 void	print_stack(t_stack *stack);
 void	write_ops(const char *s, int len, int cost);
 bool	swap_test(t_stack **a, t_stack **b, int loop);
-
 
 /****SORTING****/
 int		leave_size(t_stack *stack);
@@ -128,7 +109,6 @@ void	take_route(t_stack **a, t_stack **b, t_stack *target, t_stack *node);
 t_stack	*closest_match_target(t_stack *a, int needed);
 t_stack	*get_cheapest(t_stack *stack, int num);
 t_stack	*get_cheapest_2(t_stack *stack, int num);
-t_stack *get_2nd_cheapest(t_stack *stack, int num, t_stack *cheapest);
 t_stack	*get_cheapest_return(t_stack *b);
 t_stack	*get_cheapest_return_interval(t_stack *b, int start, int end);
 
