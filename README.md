@@ -182,7 +182,7 @@ and typically use this with small stacks to sort them quickly if we are in luck 
 Now we have moved things to B, and minimized moves used while acheiving the maximum presorting. Time to 
 take it home.
 
-### **Step.3 moving back to A**
+### **Step.3 Moving back to A**
 
 In order to move back into A we will use a greedy algorithm.
 
