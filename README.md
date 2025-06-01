@@ -90,7 +90,7 @@ Imagine a factory with two conveyor belts with boxes with some parameter, say, w
 and we need to find a way to sort them by the chosen parameter in the fewest moves. Thus minimizing energy costs, wear on the machines, time expenditure, etc. 
 How we come up with the list of moves, and how long it takes doesn't matter. Ok so it isn't a perfect analogy, but it gives the right frame of mind. **Now let's crack the problem.** 
 
-**NOTE** : Each stack is set up as a doubly linked list in this implementation, And each not contains one of the values in our stack
+**NOTE** : Each stack is set up as a doubly linked list in this implementation, And each node contains one of the values in our stack
 
 ## Logic outline
 
@@ -120,7 +120,7 @@ Let's look at 1 first.
 So now the problem has become how to move the values from A to B with the maximum amount of presorting
 at the lowest possible move expense, and then move them back to the right place in A with the fewest moves possible. 
 
-**Step 1. Get final positions**
+### **Step 1. Get final positions**
 
 We figure out where the values are supposed to go by sorting the data directly with quicksort,
 and then we place the final position for a value with its node. For example:
@@ -139,7 +139,7 @@ and matches their position in the Sorted list.
 We now know that 3 ends in the second postion, 6 in the 4th, etc.
 This information will be very valuable for the rest of the algorithm.
 
-**Step 2. Move to stack B**
+### **Step 2. Move to stack B**
 
 I will be using 500 as an example stack size in the explanation from here on.
 
@@ -182,7 +182,7 @@ and typically use this with small stacks to sort them quickly if we are in luck 
 Now we have moved things to B, and minimized moves used while acheiving the maximum presorting. Time to 
 take it home.
 
-**Step.3 moving back to A**
+### **Step.3 moving back to A**
 
 In order to move back into A we will use a greedy algorithm.
 
@@ -259,7 +259,7 @@ For 500 it saves about 100 moves off of the average. Placing the average moves r
 For this method, the key is to leave behind the largest cyclic sorted set in A, so we save the cost of moving
 nodes to and back from B. When I first wrote this program I hadn't heard of this, but later I found out that this
 is refferred to as **Longest Increasing Subsequence** or **L.I.S.** What does this look like? Here we see the largest
-sequence marked in bold in the below example with a starting stack of size 8.
+sequence marked in bold(and with a '1' in the leave column) in the below example with a starting stack of size 8.
 
 | Unsorted | Leave  |  Stack A post removal|  Stack B post removal|
 |----------|--------|----------------------|----------------------|
@@ -285,7 +285,7 @@ for L.I.S. is given by:
 
 				subsequence length = 2 * √total length
 
-So for 100, we have 2 * sqrt(100) = 20. With 100 thats 20%, So the method works pretty good. But for 500,
+So for 100, we have 2 * sqrt(100) = 20. With 100 thats 20%, So the method will work pretty good. But for 500,
 we have 2 * sqrt(500) = 45, so even the expected best case is only 9 percent of out stack.
 
 But how can we find the largest one quickly? To check every possible way is too
