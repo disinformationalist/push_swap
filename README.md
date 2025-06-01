@@ -88,10 +88,9 @@ ra
 Push swap is different from most sorting problems due to its restricted operations. Instead of a data problem, it makes more sense as a physical one.
 Imagine a factory with two conveyor belts with boxes with some parameter, say, weight rounded to the nearest whole number, and the weights can be any integer, 
 and we need to find a way to sort them by the chosen parameter in the fewest moves. Thus minimizing energy costs, wear on the machines, time expenditure, etc. 
-How we come up with the list of moves, and how long it takes doesn't matter. Ok so it isn't a perfect analogy, but it gives the right frame of mind.  
-**Now let's crack the problem.** 
+How we come up with the list of moves, and how long it takes doesn't matter. Ok so it isn't a perfect analogy, but it gives the right frame of mind. **Now let's crack the problem.** 
 
-**NOTE** : Each stack is set up as a doubly linked list in this implementation.
+**NOTE** : Each stack is set up as a doubly linked list in this implementation, And each not contains one of the values in our stack
 
 ## Logic outline
 
@@ -187,7 +186,7 @@ take it home.
 
 In order to move back into A we will use a greedy algorithm.
 
-For each of the values in B(nodes of our list), we:
+For each of the values(nodes) in B, we:
 
 1. Find their 'target node' in A. The target node should be the node in stack A which is closest in 
 final positon to the sending node while being larger than it. for example:
@@ -199,19 +198,14 @@ final positon to the sending node while being larger than it. for example:
 |	0    |   2     |  3                                    |
 |	9    |   5     |  9                                    |
 
-2. Look at all possible routes to bring node in B to be on top of its target
+Note that sometimes multiple nodes will have the same target, such as 5 and 6 both have 9 as a target.
+
+2. Look at all possible routes to bring a node in B to be on top of its target
 in A and set the cheapest(fewest moves) route as its return cost.
 
 When looking for the cheapest route we must examine 6 different ways to possibly bring the nodes together.
 To bring them together we need the sending node and the target node to come to the top of their respective
-stacks. So why 6 routes? lets look at two example stacks again.
-
-|Stack A | Stack B |  Current Target for the stack B value |
-|--------|---------|---------------------------------------|
-|	3    |   6     |  9                                    |
-|	27   |   1     |  0                                    |
-|	0    |   2     |  3                                    |
-|	9    |   5     |  9                                    |
+stacks. So why 6 routes? lets look at two example stacks above again.
 
 Let's say we are sending '1' from stack B, its target of '0'.
 The possible routes can be broken down into **Both move up**, **Both move down**,
