@@ -2,8 +2,10 @@
 
 This sorter uses a custom algorithm to sort the stack, An overview of how it works will be given in the Algorithm section. [#Algorithm](#algorithm)  
 This algo is not very elegant, but is more of a monster created by combining all the working ideas I had into one body and brought to life 
-for the sole purpose of getting the 100 and 500 length stacks sorted faster than any other means. With the lowest lows, and lowest overall averages,  
-👑**The Frankenstein's Monster algorithm presented here yeilds the fastest verifiable solution in existence**.👑  
+for the sole purpose of getting the 100 and 500 length stacks sorted faster than any other means. With the lowest lows, and lowest overall averages,
+
+### 👑**The Frankenstein's Monster algorithm presented here is the fastest verifiable solution in existence**.👑  
+
 At least, of any that I could find on github or the internet in general. 
 
 For full credit, 100 integers in under 700 moves, and 500 in under 5500.
@@ -18,7 +20,7 @@ I suspect that the wide variance in the score ranges(between lowest and highest 
 but it is really not easy to find. At least a couple dozen other ideas were tried, but provided inconsistent improvement at best,
 if something worked, it was sewed into the monster wherever proved most functional.
 
-Here is a link to the second fastest(and more elegant) solution that I could find: [An Effective Push Swap](https://github.com/ulyssegerkens/push_swap)  
+Here is a link to the second fastest(and more elegant, averages: 100 ints: **539**, 500 ints: **3784**) solution that I could find: [An Effective Push Swap](https://github.com/ulyssegerkens/push_swap)  
 ## Usage
 
 ### Steps to run:
@@ -214,17 +216,17 @@ The possible routes can be broken down into **Both move up**, **Both move down**
 Let's look at all six routes for bringing them both to the top. Since the double rotations count
 as only 1 move, we must maximize our use of them.
 
--------------------------------------Both move upward routes-------------------------------------
+----------------------------------**Both move upward routes**-----------------------------------
 
 Route 1: Use double rotation `rr` until the B node is at the top, then `ra` until the A node is also at top  
 Route 2: Use double rotation `rr` until the B node is at the top, then `rb` until the A node is also at top  
 
--------------------------------------Both move downward routes---------------------------------  
+---------------------------------**Both move downward routes**---------------------------------- 
 
 Route 3: Use double rotation `rrr` until the B node is at the top, then `rrb` until the A node is also at top  
 Route 4: Use double rotation `rrr` until the B node is at the top, then `rra` until the A node is also at top  
 
--------------------------------------Moving opposite directions routes----------------------------------  
+-----------------------------**Moving opposite directions routes**------------------------------ 
 
 Route 5: Use double rotation `ra` until the B node is at the top, then `rrb` until the A node is also at top  
 Route 6: Use double rotation `rra` until the B node is at the top, then `rb` until the A node is also at top  
