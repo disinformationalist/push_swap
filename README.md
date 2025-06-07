@@ -145,7 +145,7 @@ This information will be very valuable for the rest of the algorithm.
 
 I will be using 500 as an example stack size in the explanation from here on.
 
-Now we use the information from step 1 to break up stack a into blocks and move it into B.
+Now we use the information from step 1 to break up stack A into blocks and move them into B.
 We do this recursively by taking the values that end in the top half(the 250 smallest values, 
 with final positions 0 - 249) of the stack and moving them to B, each time finding the value 
 that requires the least number of moves(rotations or reverse rotations) to bring to the top of 
@@ -288,7 +288,7 @@ for L.I.S. is given by:
 				subsequence length = 2 * √total length
 
 So for 100, we have 2 * sqrt(100) = 20. With 100 thats 20%, So the method will work pretty good. But for 500,
-we have 2 * sqrt(500) = 45, so even the expected best case is only 9 percent of out stack.
+we have 2 * sqrt(500) = 45, so even the expected best case is only 9 percent of our stack.
 
 But how can we find the largest one quickly? To check every possible way is too
 computationally intensive with larger sets, While good algos for L.I.S. exist,
