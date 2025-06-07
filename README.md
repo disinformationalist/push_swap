@@ -305,7 +305,7 @@ for example we have 0 399 4 6 9 34 56, starting at 0 we would mark 399 and never
 How can we choose what values to use for how far we look ahead at a time? And what our max limit should be?
 it seems to be different what the best values are for different sets, so we try many and compare. For the limit it works well to take it as a fraction
 of the stack size, so we use SIZE / i, and vary i's value, and we look ahead j at a time and vary j's value. We try all combos of the two values
-i and j on the interval (2, 29), as this is already overkill for the range that will create good sets. So we check the 784 possibilities and use
+i and j on the interval [2, 29], as this is already overkill for the range that will create good sets. So we check the 784(this is 28 * 28) possibilities and use
 the one producing the largest set. This works well and for 100 we typically get a subsequence in the high teens.
 
 Once we have this we move our non L.I.S. nodes over using the same rules as before, breaking up the blocks a little differently size wise, using what worked best for 
