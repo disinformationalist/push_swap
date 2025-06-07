@@ -302,7 +302,7 @@ the last node checked, or 10 ahead of our current start, until we get all the wa
 limit on how much larger a value can be in order to be considered, because we want to avoid the scenario of a very large number early on. 
 for example we have 0 399 4 6 9 34 56, starting at 0 we would mark 399 and never be able to exceed it, even though we could make a full list from the remaining.
 
-How can we choose what values to use for how far we look ahead at a time? And what our max limit should be?
+How can we choose what values to use for how far we look ahead at a time? And what our limit on the difference should be?
 it seems to be different what the best values are for different sets, so we try many and compare. For the limit it works well to take it as a fraction
 of the stack size, so we use SIZE / i, and vary i's value, and we look ahead j at a time and vary j's value. We try all combos of the two values
 i and j on the interval [2, 29], as this is already overkill for the range that will create good sets. So we check the 784(this is 28 * 28) possibilities and use
@@ -310,7 +310,7 @@ the one producing the largest set. This works well and for 100 we typically get 
 
 Once we have this we move our non L.I.S. nodes over using the same rules as before, breaking up the blocks a little differently size wise, using what worked best for 
 around 100 numbers, and returning nodes where they go with the same greedy algo as before. Landing an average of 520 moves for 100 numbers. If we had used the 
-same method as for 500 numbers we would have had an average of 546 instead. So we see the L.I.S. pays off for smaller stacks
+same method as for 500 numbers we would have had an average of 546 instead. So we see the L.I.S. pays off for smaller stacks.
 
 We can also get a significantly better result for both methods by performing separate runs with different limits for breaking up the blocks as we send them over, comparing
 results and choosing the best one. But this is left out of the final implementation as it is very slow and not a general solution. 
